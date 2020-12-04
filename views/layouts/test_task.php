@@ -1,6 +1,10 @@
 <?php
+
 use app\assets\AppAsset;
 use yii\helpers\html;
+use yii\bootstrap\Nav;
+use yii\bootstrap\NavBar;
+use yii\widgets\Breadcrumbs;
 
 AppAsset::register($this);
 ?>
@@ -19,41 +23,24 @@ AppAsset::register($this);
 <body>
     <?php $this->beginBody() ?>
 <div class="main-wrapper">
-    <header class="header">
-        <div class="container">
-            <nav class="navbar navigation">
-                <a class="navbar-brand" href="#"><img src="images/logo.svg" alt="Logo">
-                </a>
-                <div class="header__login header__login-mobile">
-                </div>
-                <ul class="navigation-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Резюме</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Мои резюме</a>
-                    </li>
-                </ul>
-                <div class="navigation-menu__mobile">
-                    <ul class="navigation-menu__mobile-nav">
-                        <div class="navigation-menu__mobile-nav-top">
-                            <li class="navigation-menu__mobile-nav-item active">
-                                <a class="nav-link" href="#">Резюме</a>
-                            </li>
-                            <li class="navigation-menu__mobile-nav-item">
-                                <a class="nav-link" href="#">Мои резюме</a>
-                            </li>
-                        </div>
-                    </ul>
-                </div>
-                <div class="navigation-toggler">
-                    <div class="bar1"></div>
-                    <div class="bar2"></div>
-                    <div class="bar3"></div>
-                </div>
-            </nav>
-        </div>
-    </header>
+    <?php
+    NavBar::begin([
+        'brandLabel' => Yii::$app->name,
+        'brandUrl' => Yii::$app->homeUrl,
+        'options' => [
+            'class' => 'navbar-brand',
+        ],
+    ]);
+    echo Nav::widget([
+        'options' => ['class' => 'nav-link'],
+        'items' => [
+            ['label' => 'Резюме', 'url' => ['#']],
+            ['label' => 'Мои резюме', 'url' => ['/task/index']],
+           
+        ],
+    ]);
+    NavBar::end();
+    ?>
 
    <?= $content ?>
 
