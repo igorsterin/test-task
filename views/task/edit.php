@@ -5,18 +5,9 @@ use yii\bootstrap\ActiveForm;
 $div1 = '<div class="col-lg-2 col-md-3 dflex-acenter"></div>';
 $div2 = '<div class="col-lg-3 col-md-4 col-11"></div>';
 ?>
-<style>
-.test123
-    {
-        display: none;
-    }
-    
-.hiddencss
-{
-    display: none;
-}
-</style>
-<div class="content p-rel">
+
+
+
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -41,19 +32,19 @@ $div2 = '<div class="col-lg-3 col-md-4 col-11"></div>';
                         <div id="1" class="col-lg-2 col-md-3 dflex-acenter">
                             <div class="paragraph">Фамилия</div>
                         </div>
-                            <?= $form->field($model, 'lastname', ['options' => ['class' => 'col-lg-3 col-md-4 col-11']])->label('', ['class' => 'hiddencss'])->input('text', ['class' => 'dor-input w100']) ?> 
+                            <?= $form->field($model, 'lastname', ['options' => ['class' => 'col-lg-3 col-md-4 col-11']])->label(false)->input('text', ['class' => 'dor-input w100']) ?> 
                     </div>
                     <div class="row mb16">
                         <div class="col-lg-2 col-md-3 dflex-acenter">
                             <div class="paragraph">Имя</div>
                         </div>
-                            <?= $form->field($model, 'name', ['options' => ['class' => 'col-lg-3 col-md-4 col-11']])->label('', ['class' => 'hiddencss'])->input('text', ['class' => 'dor-input w100']) ?>                    
+                            <?= $form->field($model, 'name', ['options' => ['class' => 'col-lg-3 col-md-4 col-11']])->label(false)->input('text', ['class' => 'dor-input w100']) ?>                    
                     </div>
                     <div class="row mb16">
                         <div class="col-lg-2 col-md-3 dflex-acenter">
                             <div class="paragraph">Отчество</div>
                         </div>
-                       <?= $form->field($model, 'middlename', ['options' => ['class' => 'col-lg-3 col-md-4 col-11']])->label('', ['class' => 'hiddencss'])->input('text', ['class' => 'dor-input w100']) ?>
+                       <?= $form->field($model, 'middlename', ['options' => ['class' => 'col-lg-3 col-md-4 col-11']])->label(false)->input('text', ['class' => 'dor-input w100']) ?>
                     </div>
                     <div class="row mb24">
                         <div class="col-lg-2 col-md-3 dflex-acenter">
@@ -61,7 +52,7 @@ $div2 = '<div class="col-lg-3 col-md-4 col-11"></div>';
                         </div>
                         <div class="col-lg-3 col-md-4 col-11">
                             <div class="datepicker-wrap input-group date">
-                                <input type="text" class="dor-input dpicker datepicker-input">
+                                 <?= $form->field($model, 'birthdate', ['options' => ['class' => 'datepicker-wrap input-group date']])->label(false)->input('text', ['class' => 'dor-input dpicker datepicker-input']) ?>
                                 <img src="images/mdi_calendar_today.svg" alt="">
                             </div>
                         </div>
@@ -79,11 +70,20 @@ $div2 = '<div class="col-lg-3 col-md-4 col-11"></div>';
                                 <li>
                                     <input type="radio" id="test2" name="radio-group">
                                     <label for="test2">Женский</label>
-                                </li>
+                                </li>, 
                             </ul>
                         </div>
                     </div>
+                
+                <?= $form->field($model, 'sex', ['options' => ['class' => 'abc']])->label('пол')->RadioList(['0' => 'test1', '1' => 'test2'], [ 'value'=>0, 'item' => function($index,$label,$name,$checked,$value){
+                                        return '<div>' .
+                Html::radio($name, $checked, ['id' => 'r'.$value, 'value' => $value]) . '<label for="r'.$value.'">' . $label . '</label></div>' ;
+                                    }]) ?>
+
+                
+
                     <div class="row mb16">
+                        
                         <div class="col-lg-2 col-md-3 dflex-acenter">
                             <div class="paragraph">Город проживания</div>
                         </div>
@@ -223,6 +223,26 @@ $div2 = '<div class="col-lg-3 col-md-4 col-11"></div>';
                                         метод</label>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                                    <div class="row mb32">
+                        <div class="col-12">
+                            <div class="heading">Расскажите о себе</div>
+                        </div>
+                    </div>
+                    <div class="row mb64 mobile-mb32">
+                        <div class="col-lg-2 col-md-3">
+                            <div class="paragraph">О себе</div>
+                        </div>
+                        <div class="col-lg-5 col-md-7 col-12">
+                            <textarea class="dor-input w100 h176 mb8"></textarea>
+                        </div>
+                    </div>
+                    <div class="row mb128 mobile-mb64">
+                        <div class="col-lg-2 col-md-3">
+                        </div>
+                        <div class="col-lg-10 col-md-9">
+                            <a href="#" class="orange-btn link-orange-btn">Сохранить</a>
                         </div>
                     </div>
                 <?php ActiveForm::end(); ?>
