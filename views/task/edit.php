@@ -62,25 +62,18 @@ $div2 = '<div class="col-lg-3 col-md-4 col-11"></div>';
                             <div class="paragraph">Пол</div>
                         </div>
                         <div class="col-lg-3 col-md-4 col-11">
-                            <ul class="card-ul-radio profile-radio-list">
-                                <li>
-                                    <input type="radio" id="test1" name="radio-group" checked>
-                                    <label for="test1">Мужской</label>
-                                </li>
-                                <li>
-                                    <input type="radio" id="test2" name="radio-group">
-                                    <label for="test2">Женский</label>
-                                </li>, 
-                            </ul>
+                            
+                            <?= $form->field($model, 'qqq', ['options' => ['class' => 'card-ul-radio profile-radio-list']])->label(false)->RadioList(['0' => 'Мужской', '1' => 'Женский'], [  'value'=>0, 'item' => function($index,$label,$name,$checked,$value){
+                                        return '<li>' .
+                Html::radio($name, $checked, ['id' => 'r'.$value, 'value' => $value]) . '<label for="r'.$value.'">' . $label . '</label></li>' ;
+                                    }]) ?>
                         </div>
+                        
                     </div>
                 
-                <?= $form->field($model, 'sex', ['options' => ['class' => 'abc']])->label('пол')->RadioList(['0' => 'test1', '1' => 'test2'], [ 'value'=>0, 'item' => function($index,$label,$name,$checked,$value){
-                                        return '<div>' .
-                Html::radio($name, $checked, ['id' => 'r'.$value, 'value' => $value]) . '<label for="r'.$value.'">' . $label . '</label></div>' ;
-                                    }]) ?>
-
                 
+
+              
 
                     <div class="row mb16">
                         
@@ -128,12 +121,7 @@ $div2 = '<div class="col-lg-3 col-md-4 col-11"></div>';
                         </div>
                         <div class="col-lg-3 col-md-4 col-11">
                             <div class="citizenship-select">
-                                <select class="nselect-1" data-title="Программист">
-                                    <option value="01">Программист</option>
-                                    <option value="02">Дизайнер</option>
-                                    <option value="03">Повар</option>
-                                    <option value="04">Акробат</option>
-                                </select>
+                               <?= $form->field($model, 'qqq', ['options' => ['class' => 'nselect-1']])->label(false)->ListBox(['Программист','Дизайнер','Повар','Акробат']) ?>
                             </div>
                         </div>
                     </div>
