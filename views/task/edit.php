@@ -69,7 +69,7 @@ alert(fReader.readAsDataURL(input.files[0]));
                         <div class="col-lg-2 col-md-3 dflex-acenter">
                             <div class="paragraph">Отчество</div>
                         </div>
-                       <?= $form->field($model, 'middlename', ['options' => ['class' => 'col-lg-3 col-md-4 col-11']])->label(false)->input('text', ['class' => 'dor-input w100', 'value' => '']) ?>
+                       <?= $form->field($model, 'middlename', ['options' => ['class' => 'col-lg-3 col-md-4 col-11']])->label(false)->input('text', ['class' => 'dor-input w100']) ?>
                     </div>
                     <div class="row mb24">
                         <div class="col-lg-2 col-md-3 dflex-acenter">
@@ -77,7 +77,9 @@ alert(fReader.readAsDataURL(input.files[0]));
                         </div>
                         <div class="col-lg-3 col-md-4 col-11">
                             <div class="datepicker-wrap input-group date">
-                                 <?= $form->field($model, 'birthdate', ['options' => ['class' => 'datepicker-wrap input-group date']])->label(false)->input('text', ['class' => 'dor-input dpicker datepicker-input']) ?>
+                                
+                                 <?= $form->field($model, 'birthdate', ['options' => ['class' => 'datepicker-wrap input-group date']])->label(false)->input('text', ['class' => 'dor-input dpicker datepicker-input', 'autocomplete' => 'off']) ?>
+                                
                                 <img src="images/mdi_calendar_today.svg" alt="">
                             </div>
                         </div>
@@ -101,7 +103,11 @@ alert(fReader.readAsDataURL(input.files[0]));
                         <div class="col-lg-2 col-md-3 dflex-acenter">
                             <div class="paragraph">Город проживания</div>
                         </div>
-                         <?=  $form->field($model, 'city', ['options' => ['class' => 'col-lg-3 col-md-4 col-11']])->label(false)->input('text', ['class' => 'dor-input w100', 'value' => 'Кемерово', 'readonly' => '']) ?> 
+                        <div class="col-lg-3 col-md-4 col-11">
+                            <div class="citizenship-select">
+                         <?=  $form->field($model, 'city', ['options' => ['class' => 'nselect-1']])->label(false)->dropDownList(['Кемерово','Новосибирск','Иркутск','Красноярск','Барнаул']) ?> 
+                         </div>
+                       </div>
                     </div>
                     <div class="row mb16">
                         <div class="col-lg-2 col-md-3 dflex-acenter">
@@ -136,7 +142,7 @@ alert(fReader.readAsDataURL(input.files[0]));
                         </div>
                         <div class="col-lg-3 col-md-4 col-11">
                             <div class="citizenship-select">
-                               <?= $form->field($model, 'qqq', ['options' => ['class' => 'nselect-1']])->label(false)->ListBox(['Программист','Дизайнер','Повар','Акробат']) ?>
+                               <?= $form->field($model, 'specialization', ['options' => ['class' => 'nselect-1']])->label(false)->dropDownList(['Программист','Дизайнер','Повар','Акробат']) ?>
                             </div>
                         </div>
                     </div>
@@ -151,7 +157,11 @@ alert(fReader.readAsDataURL(input.files[0]));
                             </div>
                         </div>
                     </div>
+                
                 <?php /*$form->field($model, 'employment')->checkboxlist(['odin','dva'])->label(false) */ ?>
+                
+                <?php /*$form->field($model, 'aaa')->dropDownList(['odin','dva','tri'])->label(false)*/  ?>
+                
                     <div class="row mb32">
                         <div class="col-lg-2 col-md-3">
                             <div class="paragraph">Занятость</div>
