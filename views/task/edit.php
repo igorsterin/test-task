@@ -104,9 +104,9 @@ alert(fReader.readAsDataURL(input.files[0]));
                             <div class="paragraph">Город проживания</div>
                         </div>
                         <div class="col-lg-3 col-md-4 col-11">
-                            <div class="citizenship-select">
-                         <?=  $form->field($model, 'city', ['options' => ['class' => 'nselect-1']])->label(false)->dropDownList(['Кемерово','Новосибирск','Иркутск','Красноярск','Барнаул']) ?> 
-                         </div>
+                            
+                         <?=  $form->field($model, 'city', ['options' => ['class' => 'citizenship-select']])->label(false)->dropDownList(['Кемерово','Новосибирск','Иркутск','Красноярск','Барнаул'],['class' => 'nselect-1']) ?> 
+                         
                        </div>
                     </div>
                     <div class="row mb16">
@@ -141,9 +141,9 @@ alert(fReader.readAsDataURL(input.files[0]));
                             <div class="paragraph">Специализация</div>
                         </div>
                         <div class="col-lg-3 col-md-4 col-11">
-                            <div class="citizenship-select">
-                               <?= $form->field($model, 'specialization', ['options' => ['class' => 'nselect-1']])->label(false)->dropDownList(['Программист','Дизайнер','Повар','Акробат']) ?>
-                            </div>
+                          
+                               <?= $form->field($model, 'specialization', ['options' => ['class' => 'citizenship-select']])->label(false)->dropDownList(['Программист','Дизайнер','Повар','Акробат'],['class' => 'nselect-1']) ?>
+                            
                         </div>
                     </div>
                     <div class="row mb16">
