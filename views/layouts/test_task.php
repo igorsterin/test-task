@@ -31,7 +31,7 @@ AppAsset::register($this);
                         <a class="nav-link" href="#">Резюме</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Мои резюме</a>
+                        <a class="nav-link" href="index.php">Мои резюме</a>
                     </li>
                 </ul>
                 <div class="navigation-menu__mobile">
@@ -41,7 +41,7 @@ AppAsset::register($this);
                                 <a class="nav-link" href="#">Резюме</a>
                             </li>
                             <li class="navigation-menu__mobile-nav-item">
-                                <a class="nav-link" href="#">Мои резюме</a>
+                                <a class="nav-link" href="index.php">Мои резюме</a>
                             </li>
                         </div>
                     </ul>
@@ -54,9 +54,11 @@ AppAsset::register($this);
             </nav>
         </div>
     </header>
-
+    
+<div class="content p-rel" style="min-height: 610px">
    <?= $content ?>
-
+    </div>
+    
     <footer class="footer">
         <div class="container">
             <div class="footer__wrap">

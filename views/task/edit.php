@@ -26,7 +26,7 @@ alert(fReader.readAsDataURL(input.files[0]));
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="mt8 mb40"><a href="#"><img src="images/blue-left-arrow.svg" alt="arrow"> Вернуться без
+                    <div class="mt8 mb40"><a href="index.php"><img src="images/blue-left-arrow.svg" alt="arrow"> Вернуться без
                         сохранения</a>
                     </div>
                 </div>
@@ -101,9 +101,9 @@ alert(fReader.readAsDataURL(input.files[0]));
                         </div>
                         <div class="col-lg-3 col-md-4 col-11">
                             
-                            <?= $form->field($model, 'sex', ['options' => ['class' => 'card-ul-radio profile-radio-list']])->label(false)->RadioList(['0' => 'Мужской', '1' => 'Женский'], [  'value'=>0, 'item' => function($index,$label,$name,$checked,$value){
+                            <?= $form->field($model, 'sex', ['options' => ['class' => 'card-ul-radio profile-radio-list']])->label(false)->RadioList(['Мужской' => 'Мужской', 'Женский' => 'Женский'], [  'value'=>'Мужской', 'item' => function($index,$label,$name,$checked,$value){
                                         return '<li>' .
-                Html::radio($name, $checked, ['id' => 'r'.$value, 'value' => $value]) . '<label for="r'.$value.'">' . $label . '</label></li>' ;
+                Html::radio($name, $checked, ['id' => $value, 'value' => $value]) . '<label for="'.$value.'">' . $label . '</label></li>' ;
                                     }]) ?>
                         </div>
                         
@@ -116,7 +116,7 @@ alert(fReader.readAsDataURL(input.files[0]));
                         </div>
                         <div class="col-lg-3 col-md-4 col-11">
                             
-                         <?=  $form->field($model, 'city', ['options' => ['class' => 'citizenship-select']])->label(false)->dropDownList(['Кемерово','Новосибирск','Иркутск','Красноярск','Барнаул'],['class' => 'nselect-1']) ?> 
+                         <?=  $form->field($model, 'city', ['options' => ['class' => 'citizenship-select']])->label(false)->dropDownList(['Кемерово' => 'Кемерово', 'Новосибирск' => 'Новосибирск', 'Иркутск' => 'Иркутск', 'Красноярск' => 'Красноярск', 'Барнаул' => 'Барнаул'],['class' => 'nselect-1']) ?> 
                          
                        </div>
                     </div>
@@ -153,7 +153,7 @@ alert(fReader.readAsDataURL(input.files[0]));
                         </div>
                         <div class="col-lg-3 col-md-4 col-11">
                           
-                               <?= $form->field($model, 'specialization', ['options' => ['class' => 'citizenship-select']])->label(false)->dropDownList(['Программист','Дизайнер','Повар','Акробат'],['class' => 'nselect-1']) ?>
+                               <?= $form->field($model, 'specialization', ['options' => ['class' => 'citizenship-select']])->label(false)->dropDownList(['Программирование, Разработка' => 'Программирование, Разработка', 'Web инженер' => 'Web инженер', 'Web мастер' => 'Web мастер', 'Оптимизация сайта (SEO)' => 'Оптимизация сайта (SEO)', 'Администратор баз данных' => 'Администратор баз данных', 'Системный администратор' => 'Системный администратор', 'Компьютерная безопасность' => 'Компьютерная безопасность'],['class' => 'nselect-1']) ?>
                             
                         </div>
                     </div>
@@ -180,30 +180,30 @@ alert(fReader.readAsDataURL(input.files[0]));
                         <div class="col-lg-3 col-md-4 col-11">
                             <div class="profile-info">
                                 <div class="form-check d-flex">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck1" name="EditForm[employment][]" value="0" > 
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck1" name="EditForm[employment][]" value="Полная занятость" > 
                                     <label class="form-check-label" for="exampleCheck1"></label>
                                     <label for="exampleCheck1" class="profile-info__check-text job-resolution-checkbox">Полная
                                         занятость</label>
                                 </div>
                                 <div class="form-check d-flex">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck2" name="EditForm[employment][]" value="1">
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck2" name="EditForm[employment][]" value="Частичная занятость">
                                     <label class="form-check-label" for="exampleCheck2"></label>
                                     <label for="exampleCheck2" class="profile-info__check-text job-resolution-checkbox">Частичная
                                         занятость</label>
                                 </div>
-                                <div class="form-check d-flex">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck3" name="EditForm[employment][]" value="2">
+                                <div class="form-check d-flex"> 
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck3" name="EditForm[employment][]" value="Проектная/Временная работа">
                                     <label class="form-check-label" for="exampleCheck3"></label>
                                     <label for="exampleCheck3" class="profile-info__check-text job-resolution-checkbox">Проектная/Временная
                                         работа</label>
                                 </div>
                                 <div class="form-check d-flex">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck4" name="EditForm[employment][]" value="3">
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck4" name="EditForm[employment][]" value="Волонтёрство">
                                     <label class="form-check-label" for="exampleCheck4"></label>
                                     <label for="exampleCheck4" class="profile-info__check-text job-resolution-checkbox">Волонтёрство</label>
                                 </div>
                                 <div class="form-check d-flex">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck5" name="EditForm[employment][]" value="4">
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck5" name="EditForm[employment][]" value="Стажировка">
                                     <label class="form-check-label" for="exampleCheck5"></label>
                                     <label for="exampleCheck5" class="profile-info__check-text job-resolution-checkbox">Стажировка</label>
                                 </div>
@@ -217,31 +217,31 @@ alert(fReader.readAsDataURL(input.files[0]));
                         <div class="col-lg-3 col-md-4 col-11">
                             <div class="profile-info">
                                 <div class="form-check d-flex">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck6" name="EditForm[shedule][]" value="0">
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck6" name="EditForm[shedule][]" value="Полный день">
                                     <label class="form-check-label" for="exampleCheck6"></label>
                                     <label for="exampleCheck6" class="profile-info__check-text job-resolution-checkbox">Полный
                                         день</label>
                                 </div>
                                 <div class="form-check d-flex">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck7" name="EditForm[shedule][]" value="1">
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck7" name="EditForm[shedule][]" value="Сменный график">
                                     <label class="form-check-label" for="exampleCheck7"></label>
                                     <label for="exampleCheck7" class="profile-info__check-text job-resolution-checkbox">Сменный
                                         график</label>
                                 </div>
                                 <div class="form-check d-flex">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck8" name="EditForm[shedule][]" value="2">
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck8" name="EditForm[shedule][]" value="Гибкий график">
                                     <label class="form-check-label" for="exampleCheck8"></label>
                                     <label for="exampleCheck8" class="profile-info__check-text job-resolution-checkbox">Гибкий
                                         график</label>
                                 </div>
                                 <div class="form-check d-flex">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck9" name="EditForm[shedule][]" value="3">
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck9" name="EditForm[shedule][]" value="Удалённая работа">
                                     <label class="form-check-label" for="exampleCheck9"></label>
                                     <label for="exampleCheck9" class="profile-info__check-text job-resolution-checkbox">Удалённая
                                         работа</label>
                                 </div>
                                 <div class="form-check d-flex">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck10" name="EditForm[shedule][]" value="4">
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck10" name="EditForm[shedule][]" value="Вахтовый метод">
                                     <label class="form-check-label" for="exampleCheck10"></label>
                                     <label for="exampleCheck10"
                                            class="profile-info__check-text job-resolution-checkbox">Вахтовый

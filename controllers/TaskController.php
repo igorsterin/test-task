@@ -6,19 +6,32 @@ use Yii;
 use yii\web\Controller;
 use app\models\EditForm;
 use app\models\Resume;
+use app\models\NiceDate;
+use yii\helpers\Url;
 
 class TaskController extends Controller
  {   
+   /* public $url = [
+        'edit' => Url::toRoute(['task/edit']),
+        'view' => Url::toRoute(['task/view']),
+    ];*/
+    
+    
   public function actionIndex()
     {
-      $listresume = Resume::find()
+      $listresume = Resume::find() //в этой переменной будет содержаться запрплата, город, дата публикации и число просмотров
             ->select (['salary','city','pubdate','views'])
             ->where (1)
             ->asArray()
             ->all();
           $count = Resume::find()->count();
+      $listresume = NiceDate::replaceAllDate($listresume, $count);
           
-        return $this->render('index', ['lr' => $listresume, 'count' => $count]);
+        return $this->render('index', ['lr' => $listresume, 
+                                       'count' => $count, 
+                                       'url1' => Url::toRoute(['task/edit']), 
+                                       'url2' => Url::toRoute(['task/view']),
+                                      ]);
     }
     
     public function actionEdit()
@@ -42,8 +55,8 @@ $resume->email = $model->email;
 $resume->mobile = $model->mobile;
 $resume->specialization = $model->specialization;
 $resume->salary = $model->salary;
-if ($model->employment!==null) {$resume->employment = json_encode($model->employment);} else {$resume->employment = $model->employment;}
-if ($model->shedule!==null) {$resume->shedule = json_encode($model->shedule);} else {$resume->shedule = $model->shedule;}
+if ($model->employment!==null) {$resume->employment = json_encode($model->employment, JSON_UNESCAPED_UNICODE);} else {$resume->employment = $model->employment;}
+if ($model->shedule!==null) {$resume->shedule = json_encode($model->shedule, JSON_UNESCAPED_UNICODE);} else {$resume->shedule = $model->shedule;}
 $resume->aboutme = $model->aboutme;
 $resume->save(); 
           

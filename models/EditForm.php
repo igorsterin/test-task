@@ -38,7 +38,7 @@ class EditForm extends Model
     {
         
        return [
-             [['photo', 'name', 'middlename', 'email', 'mobile', 'birthdate', 'salary', 'specialization', 'city','sex', 'employment', 'shedule', 'aboutme'], 'default', 'value' => null],
+             [['lastname','photo', 'name', 'middlename', 'email', 'mobile', 'birthdate', 'salary', 'specialization', 'city','sex', 'employment', 'shedule', 'aboutme'], 'default', 'value' => null],
            // [['testname', 'lastname'], 'required', 'message' => 'Поле обязательно для заполнения'],
         ]; 
         
