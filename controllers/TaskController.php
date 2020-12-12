@@ -11,7 +11,14 @@ class TaskController extends Controller
  {   
   public function actionIndex()
     {
-        return $this->render('index');
+      $listresume = Resume::find()
+            ->select (['salary','city','pubdate','views'])
+            ->where (1)
+            ->asArray()
+            ->all();
+          $count = Resume::find()->count();
+          
+        return $this->render('index', ['lr' => $listresume, 'count' => $count]);
     }
     
     public function actionEdit()
@@ -35,8 +42,8 @@ $resume->email = $model->email;
 $resume->mobile = $model->mobile;
 $resume->specialization = $model->specialization;
 $resume->salary = $model->salary;
-$resume->employment = json_encode($model->employment);
-$resume->shedule = json_encode($model->shedule);
+if ($model->employment!==null) {$resume->employment = json_encode($model->employment);} else {$resume->employment = $model->employment;}
+if ($model->shedule!==null) {$resume->shedule = json_encode($model->shedule);} else {$resume->shedule = $model->shedule;}
 $resume->aboutme = $model->aboutme;
 $resume->save(); 
           

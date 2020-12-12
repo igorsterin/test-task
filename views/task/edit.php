@@ -53,6 +53,17 @@ alert(fReader.readAsDataURL(input.files[0]));
                         </div>
                     </div>
                 
+             <!--   <div class="row mb16">
+                        <div class="col-lg-2 col-md-3 dflex-acenter">
+                            <div class="paragraph">Тест</div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-11 field-editform-testname required" >
+                             <input type="text" id="editform-testname" class="dor-input w100" name="EditForm[testname]" aria-required="true">
+
+<p class="help-block help-block-error"></p>
+                        </div>
+                    </div> --> <!-- неудачная попытка вручную воспроизвести клиентскую валидацию activefield(это поле не пропишется в соответствующей фунцкии jquery)-->
+                
                              <div class="row mb16">
                         <div id="1" class="col-lg-2 col-md-3 dflex-acenter">
                             <div class="paragraph">Фамилия</div>

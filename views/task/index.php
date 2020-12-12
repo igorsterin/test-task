@@ -2,7 +2,7 @@
 
 
 
-function resumePageBlock ()
+function resumePageBlock ($i, $lr)
 {
     $tstval = 'abc123';
     echo '<div class="vakancy-page-block my-vacancies-block p-rel mb16">
@@ -21,13 +21,13 @@ function resumePageBlock ()
                                         <div class="col-xl-12 my-vacancies-block__left-col mb16">
                                             <h2 class="mini-title mb8">PHP разработчик</h2>
                                             <div class="d-flex align-items-center flex-wrap mb8 ">
-                                                <span class="mr16 paragraph">'.$tstval.'</span>
-                                                <span class="mr16 paragraph">'.$tstval.'</span>
+                                                <span class="mr16 paragraph">'.$lr[$i]["salary"].'</span>
+                                                <span class="mr16 paragraph">'.$lr[$i]["city"].'</span>
                                             </div>
                                             <div class="d-flex flex-wrap">
                                                 <div class="paragraph mr16">
                                                     <strong>Просмотров</strong>
-                                                    <span class="grey">'.$tstval.'</span>
+                                                    <span class="grey">'.$lr[$i]["views"].'</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -36,7 +36,7 @@ function resumePageBlock ()
                                             <div class="d-flex flex-wrap mobile-mb12">
                                                 <a class="mr16" href="#">Открыть</a>
                                             </div>
-                                            <span class="mini-paragraph cadet-blue">'.$tstval.'</span>
+                                            <span class="mini-paragraph cadet-blue">Опубликовано: '.strtotime($lr[$i]["pubdate"]).'</span>
                                         </div>
                                     </div>
                                 </div>';
@@ -59,7 +59,7 @@ function resumePageBlock ()
                                     <div class="paragraph mb8 mr16">У вас <span>5</span> резюме</div>
                                 </div>
                                 
-                                <?php resumePageBlock(); resumePageBlock(); ?>
+                                <?php for ($i=0; $i<$count; $i++) {resumePageBlock($i, $lr);} //var_dump($lr) ?>
                                 
              
                             </div>
