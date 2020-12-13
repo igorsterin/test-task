@@ -8,6 +8,7 @@ use app\models\EditForm;
 use app\models\Resume;
 use app\models\NiceDate;
 use yii\helpers\Url;
+use yii\base\Action;
 
 class TaskController extends Controller
  {   
@@ -15,6 +16,9 @@ class TaskController extends Controller
         'edit' => Url::toRoute(['task/edit']),
         'view' => Url::toRoute(['task/view']),
     ];*/
+    
+    
+
     
     
   public function actionIndex()
@@ -25,14 +29,16 @@ class TaskController extends Controller
             ->asArray()
             ->all();
           $count = Resume::find()->count();
-      $listresume = NiceDate::replaceAllDate($listresume, $count);
+      $listresume = NiceDate::replaceAllDate($listresume, $count); //замена даты публикации с формата yyyy:mm:dd hh:mm:ss на формат dd месяц на русском yyyy в hh:mm
           
         return $this->render('index', ['lr' => $listresume, 
                                        'count' => $count, 
                                        'url1' => Url::toRoute(['task/edit']), 
-                                       'url2' => Url::toRoute(['task/view']),
+                                       
                                       ]);
     }
+    
+        
     
     public function actionEdit()
     {
@@ -73,9 +79,20 @@ $resume->save();
         }
     } 
     
-    public function actionView()
+    public function actionView($id)
     {
-        return $this->render('view' );
+        $thisresume = Resume::find() 
+            ->select (['lastname','name','middlename','birthdate','city','email','mobile','salary','employment','shedule','aboutme','views'])
+            ->where (['id' => $id])
+            ->asArray()
+            ->one();
+        $resume = Resume::findOne($id);
+$resume->views++;
+$resume->save();
+        
+        return $this->render('view', ['tr' => $thisresume]);
     }
 }
+
+
 ?>
