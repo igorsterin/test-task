@@ -7,8 +7,10 @@ use yii\web\Controller;
 use app\models\EditForm;
 use app\models\Resume;
 use app\models\NiceDate;
+use app\models\AgeCalc;
 use yii\helpers\Url;
 use yii\base\Action;
+use yii\helpers\html;
 
 class TaskController extends Controller
  {   
@@ -63,7 +65,7 @@ $resume->specialization = $model->specialization;
 $resume->salary = $model->salary;
 if ($model->employment!==null) {$resume->employment = json_encode($model->employment, JSON_UNESCAPED_UNICODE);} else {$resume->employment = $model->employment;}
 if ($model->shedule!==null) {$resume->shedule = json_encode($model->shedule, JSON_UNESCAPED_UNICODE);} else {$resume->shedule = $model->shedule;}
-$resume->aboutme = $model->aboutme;
+$resume->aboutme = ($model->aboutme);
 $resume->save(); 
           
           /*Resume::find()
@@ -81,16 +83,17 @@ $resume->save();
     
     public function actionView($id)
     {
-        $thisresume = Resume::find() 
+       /* $thisresume = Resume::find() 
             ->select (['lastname','name','middlename','birthdate','city','email','mobile','salary','employment','shedule','aboutme','views'])
             ->where (['id' => $id])
             ->asArray()
-            ->one();
-        $resume = Resume::findOne($id);
-$resume->views++;
-$resume->save();
-        
-        return $this->render('view', ['tr' => $thisresume]);
+            ->one();*/
+        $thisresume = Resume::findOne($id);
+$thisresume->views++;
+$thisresume->save();
+        $age = AgeCalc::run($thisresume->birthdate);
+            
+        return $this->render('view', ['tr' => $thisresume, 'age' => $age]);
     }
 }
 

@@ -1,4 +1,10 @@
-    <div class="content p-rel">
+<?php
+
+use yii\helpers\html;
+
+?>
+
+<div class="content p-rel">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -29,7 +35,7 @@
                         <div class="profile-info__block company-profile-info__block mb8">
                             <div class="profile-info__block-left company-profile-info__block-left">Возраст
                             </div>
-                            <div class="profile-info__block-right company-profile-info__block-right">43 года</div>
+                            <div class="profile-info__block-right company-profile-info__block-right"><?=$age?></div>
                         </div>
                         <div class="profile-info__block company-profile-info__block mb8">
                             <div class="profile-info__block-left company-profile-info__block-left">Занятость</div>
@@ -72,7 +78,7 @@
                                 <div class="col-lg-7">
                                     <div class="company-profile-text mb64">
                                         <h3 class="heading mb16">Обо мне</h3>
-                                        <p><?=$tr['aboutme']?></p>
+                                        <p><?= nl2br($tr['aboutme'])?></p>
                                     </div>
                                 </div>
                             </div>
