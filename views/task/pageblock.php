@@ -11,7 +11,7 @@
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right"
                                                  aria-labelledby="dropdownMenuLink">
-                                                <a class="dropdown-item" href="#">Редактировать</a>
+                                                <a class="dropdown-item" href=<?='"'.$url3.'"'?>>Редактировать</a>
                                                 <a class="dropdown-item" href="#">Удалить</a>
                                             </div>
                                         </div>

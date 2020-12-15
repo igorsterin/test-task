@@ -23,7 +23,7 @@ use yii\web\Controller;
                                     <div class="paragraph mb8 mr16">У вас <span><?= $count ?></span> резюме</div>
                                 </div>
                                 
-                                <?php for ($i=0; $i<$count; $i++) {echo $this->render('pageblock', ['lr' => $lr, 'i' => $i, 'url2' => Url::toRoute(['task/view', 'id' => $i+1]) ]);}  ?>
+                                <?php for ($i=0; $i<$count; $i++) {echo $this->render('pageblock', ['lr' => $lr, 'i' => $i, 'url2' => Url::toRoute(['task/view', 'id' => $i+1]), 'url3' => Url::toRoute(['task/edit', 'id' => $i+1]) ]);}  ?>
              
                                
                             </div>
