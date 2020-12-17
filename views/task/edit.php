@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
+if (isset($resume['sex'])) {$vls = $resume['sex']; } else {$vls = 'Мужской';}
 
 ?>
 <style>
@@ -33,7 +34,7 @@ alert(fReader.readAsDataURL(input.files[0]));
             </div>
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="main-title mb24">Новое резюме</div>
+                    <div class="main-title mb24"><?=$title?></div>
                 </div>
             </div>
             <div class="col-12">
@@ -101,7 +102,7 @@ alert(fReader.readAsDataURL(input.files[0]));
                         </div>
                         <div class="col-lg-3 col-md-4 col-11">
                             
-                            <?= $form->field($model, 'sex', ['options' => ['class' => 'card-ul-radio profile-radio-list']])->label(false)->RadioList(['Мужской' => 'Мужской', 'Женский' => 'Женский'], [  'value'=>'Мужской', 'item' => function($index,$label,$name,$checked,$value){
+                            <?= $form->field($model, 'sex', ['options' => ['class' => 'card-ul-radio profile-radio-list']])->label(false)->RadioList(['Мужской' => 'Мужской', 'Женский' => 'Женский'], [  'value' => $vls, 'item' => function($index,$label,$name,$checked,$value){
                                         return '<li>' .
                 Html::radio($name, $checked, ['id' => $value, 'value' => $value]) . '<label for="'.$value.'">' . $label . '</label></li>' ;
                                     }]) ?>

@@ -18,7 +18,7 @@
                                         <div class="col-xl-12 my-vacancies-block__left-col mb16">
                                             <h2 class="mini-title mb8">PHP разработчик</h2>
                                             <div class="d-flex align-items-center flex-wrap mb8 ">
-                                                <span class="mr16 paragraph"><?=$lr[$i]["salary"]?> ₽</span>
+                                                <span class="mr16 paragraph"><?=number_format($lr[$i]["salary"], 0, ',', ' ')?> ₽</span>
                                                 <span class="mr16 paragraph"><?=$lr[$i]["city"] ?></span>
                                             </div>
                                             <div class="d-flex flex-wrap">

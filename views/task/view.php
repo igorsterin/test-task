@@ -2,6 +2,7 @@
 
 use yii\helpers\html;
 
+if (empty($tr['aboutme'])) {$abm = 'Этот раздел еще не заполнен.';} else {$abm = $tr['aboutme'];}
 ?>
 
 <div class="content p-rel">
@@ -22,7 +23,7 @@ use yii\helpers\html;
                         разработчик  
                     </div>
                     <div class="paragraph-lead mb16">
-                        <span class="mr24"><?= $tr['salary'] ?> ₽</span>
+                        <span class="mr24"><?=number_format($tr['salary'], 0, ',', ' ')?> ₽</span>
                      <!--   <span>Опыт работы 3 года</span> -->
                     </div>
                     <div class="profile-info company-profile-info resume-view__info-blick">
@@ -78,7 +79,7 @@ use yii\helpers\html;
                                 <div class="col-lg-7">
                                     <div class="company-profile-text mb64">
                                         <h3 class="heading mb16">Обо мне</h3>
-                                        <p><?= nl2br($tr['aboutme'])?></p>
+                                        <p><?= nl2br($abm)?></p>
                                     </div>
                                 </div>
                             </div>

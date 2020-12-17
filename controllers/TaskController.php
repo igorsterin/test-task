@@ -45,14 +45,18 @@ class TaskController extends Controller
     
     public function actionCreate()
     {
-        $model = new EditForm();
+        return $this->actionEdit(null);
+        
+        
+        /*$model = new EditForm();
+        $resume = new Resume();
         
       if ($model->load(Yii::$app->request->post())  && $model->validate()  ) {
             // данные в $model удачно проверены
 
             // делаем что-то полезное с $model ...
           
-         $resume = new Resume();
+        // $resume = new Resume();
 $resume->photo = $model->photo;
 $resume->lastname = $model->lastname;
 $resume->name = $model->name;
@@ -69,25 +73,23 @@ if ($model->shedule!==null) {$resume->shedule = json_encode($model->shedule, JSO
 $resume->aboutme = ($model->aboutme);
 $resume->save(); 
           
-          /*Resume::find()
-            ->select (['middlename'])
-            ->where (['id' => 1])
-            ->asArray()
-             ->one();*/
+          
             
             //return $this->render('edit-confirm', ['model' => $model]);
           return $this->redirect('index');
         } else {
             // либо страница отображается первый раз, либо есть ошибка в данных
-            return $this->render('edit', ['model' => $model, 'resume' => null]);
-        }
+         $empl = Checked::employment(json_decode($resume->employment));
+          $shdl = Checked::shedule(json_decode($resume->shedule));
+            return $this->render('edit', ['model' => $model, 'resume' => $resume, 'empl' => $empl, 'shdl' => $shdl]);
+        }*/
     } 
     
     
     public function actionEdit($id)
     {
         $model = new EditForm();
-        $resume = Resume::findOne($id);
+    if (empty($id)) {$resume = new Resume(); $title = 'Новое резюме';} else {$resume = Resume::findOne($id); $title = 'Редактировать резюме';}
         
       if ($model->load(Yii::$app->request->post())  && $model->validate()  ) {
                   
@@ -102,8 +104,8 @@ $resume->email = $model->email;
 $resume->mobile = $model->mobile;
 $resume->specialization = $model->specialization;
 $resume->salary = $model->salary;
-if ($model->employment!==null) {$resume->employment = json_encode($model->employment, JSON_UNESCAPED_UNICODE);} else {$resume->employment = $model->employment;}
-if ($model->shedule!==null) {$resume->shedule = json_encode($model->shedule, JSON_UNESCAPED_UNICODE);} else {$resume->shedule = $model->shedule;}
+$resume->employment = json_encode($model->employment, JSON_UNESCAPED_UNICODE);
+$resume->shedule = json_encode($model->shedule, JSON_UNESCAPED_UNICODE);
 $resume->aboutme = ($model->aboutme);
 $resume->save(); 
           
@@ -111,11 +113,12 @@ $resume->save();
             
             //return $this->render('edit-confirm', ['model' => $model]);
           return $this->redirect('index');
+          
         } else {
             // либо страница отображается первый раз, либо есть ошибка в данных
           $empl = Checked::employment(json_decode($resume->employment));
           $shdl = Checked::shedule(json_decode($resume->shedule));
-            return $this->render('edit', ['model' => $model, 'resume' => $resume, 'empl' => $empl, 'shdl' => $shdl]);
+            return $this->render('edit', ['model' => $model, 'resume' => $resume, 'empl' => $empl, 'shdl' => $shdl, 'title' => $title]);
         }
     }
     
