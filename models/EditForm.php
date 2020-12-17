@@ -4,7 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
-
+use yii\web\UploadedFile;
 
 class EditForm extends Model
 {
@@ -23,6 +23,7 @@ class EditForm extends Model
     public $aboutme;
     public $photo;
     public $specialization;
+    public $imageFile;
     
     public $qqq;
     public $aaa;
@@ -38,9 +39,11 @@ class EditForm extends Model
     {
         
        return [
+           [['imageFile'], 'file','skipOnEmpty' => false, 'extensions' => 'png, jpg'],
              [['lastname','photo', 'name', 'middlename', 'email', 'mobile', 'birthdate', 'salary', 'specialization', 'city','sex', 'employment', 'shedule', 'aboutme'], 'default', 'value' => null],
-           [['employment', 'shedule'], 'default', 'value' => ['Не указано']]
-           // [['testname', 'lastname'], 'required', 'message' => 'Поле обязательно для заполнения'],
+           [['employment', 'shedule'], 'default', 'value' => ['Не указано']],
+          // [['lastname'], 'required', 'message' => 'Поле обязательно для заполнения'],
+           
            
         ]; 
         
@@ -60,4 +63,15 @@ class EditForm extends Model
             $this->addError('mobile', 'Поле заполнено неверно.');
         }
     }*/
+    
+    
+       public function upload()
+    {
+        if ($this->validate()) {
+            $this->imageFile->saveAs('uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

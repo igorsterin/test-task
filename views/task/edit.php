@@ -11,15 +11,18 @@ if (isset($resume['sex'])) {$vls = $resume['sex']; } else {$vls = 'Мужско�
     font-weight: 500;
     font-size: 14px;
     line-height: 24px;
-    color: #262a36;
+    color: #a94442;
     }
 </style>
 <script type="text/javascript">
-function changeimg() {
-    let input = document.getElementById("in1");
-    var fReader = new FileReader();
-alert(fReader.readAsDataURL(input.files[0]));
-//document.getElementById("img1").innerHTML='<img src='+path+'/>';
+function changeimg(input) {
+    
+  //  let input = document.getElementById("in1");
+    let fReader = new FileReader();
+ fReader.readAsDataURL(input.files[0]);
+    fReader.onload = function() {
+    //alert(fReader.result);}
+document.getElementById("img1").innerHTML='<img  src="' + fReader.result + '" alt="foto">';}
 }
 </script>
 
@@ -40,6 +43,7 @@ alert(fReader.readAsDataURL(input.files[0]));
             <div class="col-12">
                 <?php $form = ActiveForm::begin(); ?>
                 
+                <?php /*= $form->field($model, 'imageFile', ['options' => ['tag' => 'label']])->fileInput()*/ ?>
                  <div class="row mb32">
                         <div class="col-lg-2 col-md-3 dflex-acenter">
                             <div class="paragraph">Фото</div>
@@ -47,10 +51,13 @@ alert(fReader.readAsDataURL(input.files[0]));
                         <div class="col-lg-3 col-md-4 col-11">
                             <div id="img1" class="profile-foto-upload mb8"><img src="images/profile-foto.jpg" alt="foto">
                             </div>
-                            <label class="custom-file-upload">
-                                <input type="file" id="in1" name="EditForm[photo]" onchange="showFile(this)" >
-                                Изменить фото
-                            </label>
+                            <!--<label class="custom-file-upload">
+                                Изменить фото -->
+                                <!--<input type="file"  name="EditForm[photo]" onchange="changeimg(this)" >-->
+                                
+                       <!--     </label> -->
+                            
+                            <?= $form->field($model, 'imageFile', ['options' => ['tag' => 'label', 'class' => 'custom-file-upload']])->fileInput(['onchange' => 'changeimg(this)'])->label('Изменить фото')  ?>
                         </div>
                     </div>
                 

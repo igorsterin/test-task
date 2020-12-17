@@ -12,17 +12,12 @@ use app\models\Checked;
 use yii\helpers\Url;
 use yii\base\Action;
 use yii\helpers\html;
+use app\models\UploadForm;
+use yii\web\UploadedFile;
 
 class TaskController extends Controller
  {   
-   /* public $url = [
-        'edit' => Url::toRoute(['task/edit']),
-        'view' => Url::toRoute(['task/view']),
-    ];*/
-    
-    
 
-    
     
   public function actionIndex()
     {
@@ -47,42 +42,6 @@ class TaskController extends Controller
     {
         return $this->actionEdit(null);
         
-        
-        /*$model = new EditForm();
-        $resume = new Resume();
-        
-      if ($model->load(Yii::$app->request->post())  && $model->validate()  ) {
-            // данные в $model удачно проверены
-
-            // делаем что-то полезное с $model ...
-          
-        // $resume = new Resume();
-$resume->photo = $model->photo;
-$resume->lastname = $model->lastname;
-$resume->name = $model->name;
-$resume->middlename = $model->middlename;
-$resume->birthdate = $model->birthdate;
-$resume->sex = $model->sex;
-$resume->city = $model->city;
-$resume->email = $model->email;
-$resume->mobile = $model->mobile;
-$resume->specialization = $model->specialization;
-$resume->salary = $model->salary;
-if ($model->employment!==null) {$resume->employment = json_encode($model->employment, JSON_UNESCAPED_UNICODE);} else {$resume->employment = $model->employment;}
-if ($model->shedule!==null) {$resume->shedule = json_encode($model->shedule, JSON_UNESCAPED_UNICODE);} else {$resume->shedule = $model->shedule;}
-$resume->aboutme = ($model->aboutme);
-$resume->save(); 
-          
-          
-            
-            //return $this->render('edit-confirm', ['model' => $model]);
-          return $this->redirect('index');
-        } else {
-            // либо страница отображается первый раз, либо есть ошибка в данных
-         $empl = Checked::employment(json_decode($resume->employment));
-          $shdl = Checked::shedule(json_decode($resume->shedule));
-            return $this->render('edit', ['model' => $model, 'resume' => $resume, 'empl' => $empl, 'shdl' => $shdl]);
-        }*/
     } 
     
     
@@ -91,9 +50,14 @@ $resume->save();
         $model = new EditForm();
     if (empty($id)) {$resume = new Resume(); $title = 'Новое резюме';} else {$resume = Resume::findOne($id); $title = 'Редактировать резюме';}
         
-      if ($model->load(Yii::$app->request->post())  && $model->validate()  ) {
-                  
-$resume->photo = $model->photo;
+      if ($model->load(Yii::$app->request->post()) /*  && $model->validate() */) 
+      {   
+          //когда форма заполнена и данные прошли проверку
+          $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            if ($model->upload()) {
+                // file is uploaded successfully
+              
+$resume->photo = $model->imageFile;
 $resume->lastname = $model->lastname;
 $resume->name = $model->name;
 $resume->middlename = $model->middlename;
@@ -109,16 +73,16 @@ $resume->shedule = json_encode($model->shedule, JSON_UNESCAPED_UNICODE);
 $resume->aboutme = ($model->aboutme);
 $resume->save(); 
           
-  
-            
-            //return $this->render('edit-confirm', ['model' => $model]);
-          return $this->redirect('index');
+//return $this->render('edit-confirm', ['model' => $model]);
+return $this->redirect('index');}
           
-        } else {
+        } 
+            else 
+        {
             // либо страница отображается первый раз, либо есть ошибка в данных
-          $empl = Checked::employment(json_decode($resume->employment));
-          $shdl = Checked::shedule(json_decode($resume->shedule));
-            return $this->render('edit', ['model' => $model, 'resume' => $resume, 'empl' => $empl, 'shdl' => $shdl, 'title' => $title]);
+$empl = Checked::employment(json_decode($resume->employment));
+ $shdl = Checked::shedule(json_decode($resume->shedule));
+return $this->render('edit', ['model' => $model, 'resume' => $resume, 'empl' => $empl, 'shdl' => $shdl, 'title' => $title]);
         }
     }
     
@@ -126,11 +90,6 @@ $resume->save();
     
     public function actionView($id)
     {
-       /* $thisresume = Resume::find() 
-            ->select (['lastname','name','middlename','birthdate','city','email','mobile','salary','employment','shedule','aboutme','views'])
-            ->where (['id' => $id])
-            ->asArray()
-            ->one();*/
         $thisresume = Resume::findOne($id);
 $thisresume->views++;
 $thisresume->save();
