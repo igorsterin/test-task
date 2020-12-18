@@ -48,16 +48,49 @@ class TaskController extends Controller
     public function actionEdit($id)
     {
         $model = new EditForm();
-    if (empty($id)) {$resume = new Resume(); $title = 'Новое резюме';} else {$resume = Resume::findOne($id); $title = 'Редактировать резюме';}
+    if (empty($id)) { //id будет пустое при создании резюме
+        $resume = new Resume(); 
+        $title = 'Новое резюме'; 
+        $photo = 'images/profile-foto.jpg'; 
+        $model->skip = false; //если резюме создается, то загрузка фото в input file обязательно
+    }   
+        else {
+            $resume = Resume::findOne($id); 
+            $title = 'Редактировать резюме'; 
+            $photo = 'uploads/'.$resume->photo; 
+            $model->skip = true; //если редактируется, то не обязательно (потому что фото у резюме уже есть, а значение input file нельзя менять программно, и при открытии страницы он будет пустой, в отличие от других input)
+        }
         
-      if ($model->load(Yii::$app->request->post()) /*  && $model->validate() */) 
-      {   
-          //когда форма заполнена и данные прошли проверку
+        
+      if ($model->load(Yii::$app->request->post()) /*  && $model->validate() */) //выполняется когда форма заполнена 
+      {     
           $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-            if ($model->upload()) {
-                // file is uploaded successfully
-              
-$resume->photo = $model->imageFile;
+          
+            if ($model->upload()) {                     // если фото загружено (но вне зависимости от этого, метод upload проведет валидацию данных формы)
+              $this->resumeSave($resume, $model);       //при создании, или при редактировании, если изменено фото
+                return $this->redirect('index');
+                
+                //return $this->render('edit-confirm', ['model' => $model]);
+            }
+    
+$this->resumeSave($resume, $model); //при редактировании, если фото не изменено 
+return $this->redirect('index');
+        } 
+            else 
+        {
+            // эта часть кода выполняется, если страница отображается первый раз, либо есть ошибка в данных
+                
+$empl = Checked::employment(json_decode($resume->employment));
+ $shdl = Checked::shedule(json_decode($resume->shedule));
+return $this->render('edit', ['model' => $model, 'resume' => $resume, 'empl' => $empl, 'shdl' => $shdl, 'title' => $title, 'photo' => $photo]);
+        }
+    }
+    
+    
+    
+    public function resumeSave ($resume, $model) //часть actionEdit, вынесена в отдельный метод, чтобы два раза не повторять
+    {
+if ($model->imageFile!==null) {$resume->photo = $model->imageFile;}
 $resume->lastname = $model->lastname;
 $resume->name = $model->name;
 $resume->middlename = $model->middlename;
@@ -71,19 +104,7 @@ $resume->salary = $model->salary;
 $resume->employment = json_encode($model->employment, JSON_UNESCAPED_UNICODE);
 $resume->shedule = json_encode($model->shedule, JSON_UNESCAPED_UNICODE);
 $resume->aboutme = ($model->aboutme);
-$resume->save(); 
-          
-//return $this->render('edit-confirm', ['model' => $model]);
-return $this->redirect('index');}
-          
-        } 
-            else 
-        {
-            // либо страница отображается первый раз, либо есть ошибка в данных
-$empl = Checked::employment(json_decode($resume->employment));
- $shdl = Checked::shedule(json_decode($resume->shedule));
-return $this->render('edit', ['model' => $model, 'resume' => $resume, 'empl' => $empl, 'shdl' => $shdl, 'title' => $title]);
-        }
+$resume->save();
     }
     
     

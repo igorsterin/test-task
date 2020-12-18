@@ -15,7 +15,7 @@ if (empty($tr['aboutme'])) {$abm = 'Этот раздел еще не запол
             </div>
             <div class="row">
                 <div class="col-lg-4 col-md-5 mobile-mb32">
-                    <div class="profile-foto resume-profile-foto"><img src="images/profile-foto.jpg" alt="profile-foto">
+                    <div class="profile-foto resume-profile-foto"><img src=<?='"uploads/'.$tr['photo'].'"'?> alt="profile-foto">
                     </div>
                 </div>
                 <div class="col-lg-8 col-md-7">

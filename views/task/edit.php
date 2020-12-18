@@ -6,7 +6,7 @@ if (isset($resume['sex'])) {$vls = $resume['sex']; } else {$vls = 'Мужско�
 
 ?>
 <style>
-.help-block {
+.help-block { /* стиль сообщения об ошибке заполнения поля формы*/
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
@@ -49,7 +49,7 @@ document.getElementById("img1").innerHTML='<img  src="' + fReader.result + '" al
                             <div class="paragraph">Фото</div>
                         </div>
                         <div class="col-lg-3 col-md-4 col-11">
-                            <div id="img1" class="profile-foto-upload mb8"><img src="images/profile-foto.jpg" alt="foto">
+                            <div id="img1" class="profile-foto-upload mb8"><img src=<?='"'.$photo.'"'?> alt="foto">
                             </div>
                             <!--<label class="custom-file-upload">
                                 Изменить фото -->

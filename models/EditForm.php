@@ -24,6 +24,7 @@ class EditForm extends Model
     public $photo;
     public $specialization;
     public $imageFile;
+    public $skip;
     
     public $qqq;
     public $aaa;
@@ -39,10 +40,10 @@ class EditForm extends Model
     {
         
        return [
-           [['imageFile'], 'file','skipOnEmpty' => false, 'extensions' => 'png, jpg'],
+           [['imageFile'], 'file','skipOnEmpty' => $this->skip, 'extensions' => 'png, jpg'],
              [['lastname','photo', 'name', 'middlename', 'email', 'mobile', 'birthdate', 'salary', 'specialization', 'city','sex', 'employment', 'shedule', 'aboutme'], 'default', 'value' => null],
            [['employment', 'shedule'], 'default', 'value' => ['Не указано']],
-          // [['lastname'], 'required', 'message' => 'Поле обязательно для заполнения'],
+           [['lastname'], 'required', 'message' => 'Поле обязательно для заполнения'],
            
            
         ]; 
@@ -67,7 +68,7 @@ class EditForm extends Model
     
        public function upload()
     {
-        if ($this->validate()) {
+        if ($this->validate() and $this->imageFile!==null) {
             $this->imageFile->saveAs('uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
             return true;
         } else {
