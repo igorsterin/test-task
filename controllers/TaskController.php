@@ -21,8 +21,15 @@ class TaskController extends Controller
     
   public function actionIndex()
     {
+      $id = Yii::$app->request->post('param');
+    if  ($id) {                          
+        $delres = Resume::findOne($id);
+        $delres->delete();
+        return /*'удалить id: '.$id*/;
+    }            //<--данная часть кода выполнятся как ответ на ajax-post-запрос на удаление резюме
+      
       $listresume = Resume::find() //в этой переменной будет содержаться запрплата, город, дата публикации и число просмотров
-            ->select (['salary','city','pubdate','views'])
+            ->select (['id','salary','city','pubdate','views'])
             ->where (1)
             ->asArray()
             ->all();
@@ -36,7 +43,7 @@ class TaskController extends Controller
                                       ]);
     }
     
-        
+    
     
     public function actionCreate()
     {
@@ -45,24 +52,25 @@ class TaskController extends Controller
     } 
     
     
+    
     public function actionEdit($id)
     {
         $model = new EditForm();
-    if (empty($id)) { //id будет пустое при создании резюме
+    if (empty($id)) {                //id будет пустое при создании резюме
         $resume = new Resume(); 
         $title = 'Новое резюме'; 
         $photo = 'images/profile-foto.jpg'; 
-        $model->skip = false; //если резюме создается, то загрузка фото в input file обязательно
+        $model->skip = false;                     //если резюме создается, то загрузка фото в input file обязательно
     }   
         else {
             $resume = Resume::findOne($id); 
             $title = 'Редактировать резюме'; 
             $photo = 'uploads/'.$resume->photo; 
-            $model->skip = true; //если редактируется, то не обязательно (потому что фото у резюме уже есть, а значение input file нельзя менять программно, и при открытии страницы он будет пустой, в отличие от других input)
+            $model->skip = true;                 //если редактируется, то не обязательно (потому что фото у резюме уже есть, а значение input file нельзя менять программно, и при открытии страницы он будет пустой, в отличие от других input)
         }
         
         
-      if ($model->load(Yii::$app->request->post()) /*  && $model->validate() */) //выполняется когда форма заполнена 
+      if ($model->load(Yii::$app->request->post()) /*  && $model->validate() */)      //выполняется когда форма заполнена 
       {     
           $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
           

@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\html;
+$this->title = 'Просмотр резюме';
 
 if (empty($tr['aboutme'])) {$abm = 'Этот раздел еще не заполнен.';} else {$abm = $tr['aboutme'];}
 ?>

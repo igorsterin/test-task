@@ -1,8 +1,11 @@
+<?php
+
+use yii\widgets\Pjax;
+use yii\helpers\html;
+?>
 
 
-
-
-<div class="vakancy-page-block my-vacancies-block p-rel mb16">
+  <?= Html::beginTag('div', ['id' => $i+1, 'class' => 'vakancy-page-block my-vacancies-block p-rel mb16'])?>
                                     <div class="row">
                                         <div class="my-resume-dropdown dropdown show mb8">
                                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -12,7 +15,9 @@
                                             <div class="dropdown-menu dropdown-menu-right"
                                                  aria-labelledby="dropdownMenuLink">
                                                 <a class="dropdown-item" href=<?='"'.$url3.'"'?>>Редактировать</a>
-                                                <a class="dropdown-item" href="#">Удалить</a>
+                                                
+                                             <!--   <a class="dropdown-item" href="task/">Удалить</a> --> <?= Html::a("Удалить", 'javascript:void(0);', ['class' => 'dropdown-item', 'onclick' => 'deleteRes('.$lr[$i]["id"].'); return false;']) ?>
+                                               
                                             </div>
                                         </div>
                                         <div class="col-xl-12 my-vacancies-block__left-col mb16">
@@ -36,4 +41,4 @@
                                             <span class="mini-paragraph cadet-blue">Опубликовано: <?=$lr[$i]["pubdate"] ?></span>
                                         </div>
                                     </div>
-    </div>
+   <?=Html::endTag('div')?>

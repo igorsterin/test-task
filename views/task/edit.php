@@ -3,6 +3,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
 if (isset($resume['sex'])) {$vls = $resume['sex']; } else {$vls = 'Мужской';}
+$this->title = $title;
 
 ?>
 <style>

@@ -4,10 +4,28 @@ use yii\helpers\Url;
 
 use yii\web\Controller;
 
-
+$this->title = 'Мои резюме';
 
 
 ?>
+<script type="text/javascript">
+    function deleteRes(id) {    
+$.post(
+  "",
+  {
+    param: id,
+  },
+  onAjaxSuccess
+);
+function onAjaxSuccess(data)
+    {
+ // alert(data);
+let elem = document.getElementById(id);
+elem.parentNode.removeChild(elem);
+    }
+}
+</script>
+
 
 <div class="content">
         <div class="container">
@@ -23,9 +41,11 @@ use yii\web\Controller;
                                     <div class="paragraph mb8 mr16">У вас <span><?= $count ?></span> резюме</div>
                                 </div>
                                 
-                                <?php for ($i=0; $i<$count; $i++) {echo $this->render('pageblock', ['lr' => $lr, 'i' => $i, 'url2' => Url::toRoute(['task/view', 'id' => $i+1]), 'url3' => Url::toRoute(['task/edit', 'id' => $i+1]) ]);}  ?>
+                                <?php for ($i=0; $i<$count; $i++) {$id = $lr[$i]["id"]; 
+                                                                   echo $this->render('pageblock', ['lr' => $lr, 'i' => $i, 
+                                                                                                    'url2' => Url::toRoute(['task/view', 'id' => $id]), 
+                                                                                                    'url3' => Url::toRoute(['task/edit', 'id' => $id]) ]);}  ?>
              
-                               
                             </div>
                         </div>
                     </div>
