@@ -21,7 +21,9 @@ function onAjaxSuccess(data)
     {
  // alert(data);
 let elem = document.getElementById(id);
-elem.parentNode.removeChild(elem);
+elem.parentNode.removeChild(elem); //удаление элемента pageblock
+let elsp = document.getElementById('spn');
+elsp.innerText=data; //обновление счетчика
     }
 }
 </script>
@@ -38,7 +40,7 @@ elem.parentNode.removeChild(elem);
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="d-flex">
-                                    <div class="paragraph mb8 mr16">У вас <span><?= $count ?></span> резюме</div>
+                                    <div class="paragraph mb8 mr16">У вас <span id="spn"><?= $count ?></span> резюме</div>
                                 </div>
                                 
                                 <?php for ($i=0; $i<$count; $i++) {$id = $lr[$i]["id"]; 

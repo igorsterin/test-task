@@ -5,7 +5,7 @@ use yii\helpers\html;
 ?>
 
 
-  <?= Html::beginTag('div', ['id' => $i+1, 'class' => 'vakancy-page-block my-vacancies-block p-rel mb16'])?>
+  <?= Html::beginTag('div', ['id' => $lr[$i]["id"], 'class' => 'vakancy-page-block my-vacancies-block p-rel mb16'])?>
                                     <div class="row">
                                         <div class="my-resume-dropdown dropdown show mb8">
                                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"

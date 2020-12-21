@@ -25,7 +25,7 @@ class TaskController extends Controller
     if  ($id) {                          
         $delres = Resume::findOne($id);
         $delres->delete();
-        return /*'удалить id: '.$id*/;
+        return Resume::find()->count();
     }            //<--данная часть кода выполнятся как ответ на ajax-post-запрос на удаление резюме
       
       $listresume = Resume::find() //в этой переменной будет содержаться запрплата, город, дата публикации и число просмотров
@@ -69,17 +69,17 @@ class TaskController extends Controller
             $model->skip = true;                 //если редактируется, то не обязательно (потому что фото у резюме уже есть, а значение input file нельзя менять программно, и при открытии страницы он будет пустой, в отличие от других input)
         }
         
-        
-      if ($model->load(Yii::$app->request->post()) /*  && $model->validate() */)      //выполняется когда форма заполнена 
-      {     
-          $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-          
-            if ($model->upload()) {                     // если фото загружено (но вне зависимости от этого, метод upload проведет валидацию данных формы)
-              $this->resumeSave($resume, $model);       //при создании, или при редактировании, если изменено фото
-                return $this->redirect('index');
-                
-                //return $this->render('edit-confirm', ['model' => $model]);
-            }
+
+                  if ($model->load(Yii::$app->request->post()) /*  && $model->validate() */)      //выполняется когда форма заполнена 
+                  {     
+                      $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+
+                        if ($model->upload()) {                     // если фото загружено (но вне зависимости от этого, метод upload проведет валидацию данных формы)
+                          $this->resumeSave($resume, $model);       //при создании, или при редактировании, если изменено фото
+                            return $this->redirect('index');
+
+                            //return $this->render('edit-confirm', ['model' => $model]);
+                        }
     
 $this->resumeSave($resume, $model); //при редактировании, если фото не изменено 
 return $this->redirect('index');
