@@ -52,26 +52,11 @@ document.getElementById("img1").innerHTML='<img  src="' + fReader.result + '" al
                         <div class="col-lg-3 col-md-4 col-11">
                             <div id="img1" class="profile-foto-upload mb8"><img src=<?='"'.$photo.'"'?> alt="foto">
                             </div>
-                            <!--<label class="custom-file-upload">
-                                Изменить фото -->
-                                <!--<input type="file"  name="EditForm[photo]" onchange="changeimg(this)" >-->
-                                
-                       <!--     </label> -->
-                            
+              
                             <?= $form->field($model, 'imageFile', ['options' => ['tag' => 'label', 'class' => 'custom-file-upload']])->fileInput(['onchange' => 'changeimg(this)'])->label('Изменить фото')  ?>
                         </div>
                     </div>
                 
-             <!--   <div class="row mb16">
-                        <div class="col-lg-2 col-md-3 dflex-acenter">
-                            <div class="paragraph">Тест</div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-11 field-editform-testname required" >
-                             <input type="text" id="editform-testname" class="dor-input w100" name="EditForm[testname]" aria-required="true">
-
-<p class="help-block help-block-error"></p>
-                        </div>
-                    </div> --> <!-- неудачная попытка вручную воспроизвести клиентскую валидацию activefield(это поле не пропишется в соответствующей фунцкии jquery)-->
                 
                              <div class="row mb16">
                         <div id="1" class="col-lg-2 col-md-3 dflex-acenter">
@@ -189,30 +174,30 @@ document.getElementById("img1").innerHTML='<img  src="' + fReader.result + '" al
                         <div class="col-lg-3 col-md-4 col-11">
                             <div class="profile-info">
                                 <div class="form-check d-flex">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck1" name="EditForm[employment][]" value="Полная занятость" <?=$empl['Полная занятость']?>> 
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck1" name="Resume[employment][]" value="Полная занятость" <?=$empl['Полная занятость']?>> 
                                     <label class="form-check-label" for="exampleCheck1"></label>
                                     <label for="exampleCheck1" class="profile-info__check-text job-resolution-checkbox">Полная
                                         занятость</label>
                                 </div>
                                 <div class="form-check d-flex">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck2" name="EditForm[employment][]" value="Частичная занятость" <?=$empl['Частичная занятость']?>>
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck2" name="Resume[employment][]" value="Частичная занятость" <?=$empl['Частичная занятость']?>>
                                     <label class="form-check-label" for="exampleCheck2"></label>
                                     <label for="exampleCheck2" class="profile-info__check-text job-resolution-checkbox">Частичная
                                         занятость</label>
                                 </div>
                                 <div class="form-check d-flex"> 
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck3" name="EditForm[employment][]" value="Проектная/Временная работа" <?=$empl['Проектная/Временная работа']?>>
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck3" name="Resume[employment][]" value="Проектная/Временная работа" <?=$empl['Проектная/Временная работа']?>>
                                     <label class="form-check-label" for="exampleCheck3"></label>
                                     <label for="exampleCheck3" class="profile-info__check-text job-resolution-checkbox">Проектная/Временная
                                         работа</label>
                                 </div>
                                 <div class="form-check d-flex">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck4" name="EditForm[employment][]" value="Волонтёрство" <?=$empl['Волонтёрство']?>>
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck4" name="Resume[employment][]" value="Волонтёрство" <?=$empl['Волонтёрство']?>>
                                     <label class="form-check-label" for="exampleCheck4"></label>
                                     <label for="exampleCheck4" class="profile-info__check-text job-resolution-checkbox">Волонтёрство</label>
                                 </div>
                                 <div class="form-check d-flex">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck5" name="EditForm[employment][]" value="Стажировка" <?=$empl['Стажировка']?>>
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck5" name="Resume[employment][]" value="Стажировка" <?=$empl['Стажировка']?>>
                                     <label class="form-check-label" for="exampleCheck5"></label>
                                     <label for="exampleCheck5" class="profile-info__check-text job-resolution-checkbox">Стажировка</label>
                                 </div>
@@ -226,31 +211,31 @@ document.getElementById("img1").innerHTML='<img  src="' + fReader.result + '" al
                         <div class="col-lg-3 col-md-4 col-11">
                             <div class="profile-info">
                                 <div class="form-check d-flex">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck6" name="EditForm[shedule][]" value="Полный день" <?=$shdl['Полный день']?>>
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck6" name="Resume[shedule][]" value="Полный день" <?=$shdl['Полный день']?>>
                                     <label class="form-check-label" for="exampleCheck6"></label>
                                     <label for="exampleCheck6" class="profile-info__check-text job-resolution-checkbox">Полный
                                         день</label>
                                 </div>
                                 <div class="form-check d-flex">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck7" name="EditForm[shedule][]" value="Сменный график" <?=$shdl['Сменный график']?>>
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck7" name="Resume[shedule][]" value="Сменный график" <?=$shdl['Сменный график']?>>
                                     <label class="form-check-label" for="exampleCheck7"></label>
                                     <label for="exampleCheck7" class="profile-info__check-text job-resolution-checkbox">Сменный
                                         график</label>
                                 </div>
                                 <div class="form-check d-flex">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck8" name="EditForm[shedule][]" value="Гибкий график" <?=$shdl['Гибкий график']?>>
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck8" name="Resume[shedule][]" value="Гибкий график" <?=$shdl['Гибкий график']?>>
                                     <label class="form-check-label" for="exampleCheck8"></label>
                                     <label for="exampleCheck8" class="profile-info__check-text job-resolution-checkbox">Гибкий
                                         график</label>
                                 </div>
                                 <div class="form-check d-flex">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck9" name="EditForm[shedule][]" value="Удалённая работа" <?=$shdl['Удалённая работа']?>>
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck9" name="Resume[shedule][]" value="Удалённая работа" <?=$shdl['Удалённая работа']?>>
                                     <label class="form-check-label" for="exampleCheck9"></label>
                                     <label for="exampleCheck9" class="profile-info__check-text job-resolution-checkbox">Удалённая
                                         работа</label>
                                 </div>
                                 <div class="form-check d-flex">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck10" name="EditForm[shedule][]" value="Вахтовый метод" <?=$shdl['Вахтовый метод']?>>
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck10" name="Resume[shedule][]" value="Вахтовый метод" <?=$shdl['Вахтовый метод']?>>
                                     <label class="form-check-label" for="exampleCheck10"></label>
                                     <label for="exampleCheck10"
                                            class="profile-info__check-text job-resolution-checkbox">Вахтовый

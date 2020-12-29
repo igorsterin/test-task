@@ -3,7 +3,7 @@
 use yii\helpers\html;
 $this->title = 'Просмотр резюме';
 
-if (empty($tr['aboutme'])) {$abm = 'Этот раздел еще не заполнен.';} else {$abm = $tr['aboutme'];}
+if (empty($tr['aboutme'])) {$abm = 'Этот раздел еще не заполнен.';} else {$abm = $tr->aboutme;}
 ?>
 
 <div class="content p-rel">
@@ -16,7 +16,7 @@ if (empty($tr['aboutme'])) {$abm = 'Этот раздел еще не запол
             </div>
             <div class="row">
                 <div class="col-lg-4 col-md-5 mobile-mb32">
-                    <div class="profile-foto resume-profile-foto"><img src=<?='"uploads/'.$tr['photo'].'"'?> alt="profile-foto">
+                    <div class="profile-foto resume-profile-foto"><img src=<?='"uploads/'.$tr->photo.'"'?> alt="profile-foto">
                     </div>
                 </div>
                 <div class="col-lg-8 col-md-7">
@@ -24,14 +24,14 @@ if (empty($tr['aboutme'])) {$abm = 'Этот раздел еще не запол
                         разработчик  
                     </div>
                     <div class="paragraph-lead mb16">
-                        <span class="mr24"><?=number_format($tr['salary'], 0, ',', ' ')?> ₽</span>
+                        <span class="mr24"><?=number_format($tr->salary, 0, ',', ' ')?> ₽</span>
                      <!--   <span>Опыт работы 3 года</span> -->
                     </div>
                     <div class="profile-info company-profile-info resume-view__info-blick">
                         <div class="profile-info__block company-profile-info__block mb8">
                             <div class="profile-info__block-left company-profile-info__block-left">Имя
                             </div>
-                            <div class="profile-info__block-right company-profile-info__block-right"><?=$tr['lastname']?> <?=$tr['name']?> <?=$tr['middlename']?>
+                            <div class="profile-info__block-right company-profile-info__block-right"><?=$tr->lastname?> <?=$tr->name?> <?=$tr->middlename?>
                             </div>
                         </div>
                         <div class="profile-info__block company-profile-info__block mb8">
@@ -41,32 +41,32 @@ if (empty($tr['aboutme'])) {$abm = 'Этот раздел еще не запол
                         </div>
                         <div class="profile-info__block company-profile-info__block mb8">
                             <div class="profile-info__block-left company-profile-info__block-left">Занятость</div>
-                            <div class="profile-info__block-right company-profile-info__block-right"><?= join(', ', json_decode($tr['employment'])) ?></div>
+                            <div class="profile-info__block-right company-profile-info__block-right"><?= join(', ', json_decode($tr->employment)) ?></div>
                         </div>
                         <div class="profile-info__block company-profile-info__block mb8">
                             <div class="profile-info__block-left company-profile-info__block-left">График работы
                             </div>
-                            <div class="profile-info__block-right company-profile-info__block-right"><?= join(', ', json_decode($tr['shedule'])) ?>
+                            <div class="profile-info__block-right company-profile-info__block-right"><?= join(', ', json_decode($tr->shedule)) ?>
                             </div>
                         </div>
                         <div class="profile-info__block company-profile-info__block mb8">
                             <div class="profile-info__block-left company-profile-info__block-left">Город проживания
                             </div>
-                            <div class="profile-info__block-right company-profile-info__block-right"><?=$tr['city']?></div>
+                            <div class="profile-info__block-right company-profile-info__block-right"><?=$tr->city ?></div>
                         </div>
                         <div class="profile-info__block company-profile-info__block mb8">
                             <div class="profile-info__block-left company-profile-info__block-left">
                                 Электронная почта
                             </div>
                             <div class="profile-info__block-right company-profile-info__block-right"><a
-                                    href="#"><?=$tr['email']?></a></div>
+                                    href="#"><?=$tr->email?></a></div>
                         </div>
                         <div class="profile-info__block company-profile-info__block mb8">
                             <div class="profile-info__block-left company-profile-info__block-left">
                                 Телефон
                             </div>
                             <div class="profile-info__block-right company-profile-info__block-right"><a
-                                    href="#"><?=$tr['mobile']?></a>
+                                    href="#"><?=$tr->mobile?></a>
                             </div>
                         </div>
                     </div>

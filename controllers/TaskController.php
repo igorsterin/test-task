@@ -55,34 +55,46 @@ class TaskController extends Controller
     
     public function actionEdit($id)
     {
-        $model = new EditForm();
+        //$model = new EditForm();
+        
     if (empty($id)) {                //id будет пустое при создании резюме
         $resume = new Resume(); 
         $title = 'Новое резюме'; 
         $photo = 'images/profile-foto.jpg'; 
-        $model->skip = false;                     //если резюме создается, то загрузка фото в input file обязательно
+        $resume->skip = false;                     //если резюме создается, то загрузка фото в input file обязательно
     }   
         else {
             $resume = Resume::findOne($id); 
             $title = 'Редактировать резюме'; 
             $photo = 'uploads/'.$resume->photo; 
-            $model->skip = true;                 //если редактируется, то не обязательно (потому что фото у резюме уже есть, а значение input file нельзя менять программно, и при открытии страницы он будет пустой, в отличие от других input)
+            $resume->skip = true;                 //если редактируется, то не обязательно (потому что фото у резюме уже есть, а значение input file нельзя менять программно, и при открытии страницы он будет пустой, в отличие от других input)
         }
         
 
-                  if ($model->load(Yii::$app->request->post()) /*  && $model->validate() */)      //выполняется когда форма заполнена 
+                  if ($resume->load(Yii::$app->request->post()) )      //выполняется когда форма заполнена 
                   {     
-                      $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+                     $resume->imageFile = UploadedFile::getInstance($resume, 'imageFile');
 
-                        if ($model->upload()) {                     // если фото загружено (но вне зависимости от этого, метод upload проведет валидацию данных формы)
-                          $this->resumeSave($resume, $model);       //при создании, или при редактировании, если изменено фото
-                            return $this->redirect('index');
-
-                            //return $this->render('edit-confirm', ['model' => $model]);
+                        if ($resume->upload()) {                     // если фото загружено (но вне зависимости от этого, метод upload проведет валидацию данных формы)
+                            
+                            $resume->photo = $resume->imageFile;
+                            $resume->employment = json_encode($resume->employment, JSON_UNESCAPED_UNICODE);  
+                            $resume->shedule = json_encode($resume->shedule, JSON_UNESCAPED_UNICODE);
+                           // echo '<pre>';      var_dump($resume); echo '</pre>'; 
+                           // echo '</br></br></br></br></br></br>';
+                             //echo '<pre>';      var_dump($resume->imageFile); echo '</pre>';
+                           $resume->save(false);       //при создании, или при редактировании, если изменено фото
+                            //return $this->redirect('index');
+                            return $this->render('edit-confirm', ['model' => $resume]);
+                            
+                            
                         }
-    
-$this->resumeSave($resume, $model); //при редактировании, если фото не изменено 
-return $this->redirect('index');
+              
+$resume->employment = json_encode($resume->employment, JSON_UNESCAPED_UNICODE);  
+$resume->shedule = json_encode($resume->shedule, JSON_UNESCAPED_UNICODE);
+$resume->save(false); //при редактировании, если фото не изменено 
+//return $this->redirect('index');
+return $this->render('edit-confirm', ['model' => $resume]);
         } 
             else 
         {
@@ -90,7 +102,7 @@ return $this->redirect('index');
                 
 $empl = Checked::employment(json_decode($resume->employment));
  $shdl = Checked::shedule(json_decode($resume->shedule));
-return $this->render('edit', ['model' => $model, 'resume' => $resume, 'empl' => $empl, 'shdl' => $shdl, 'title' => $title, 'photo' => $photo]);
+return $this->render('edit', ['model' => $resume, 'resume' => $resume, 'empl' => $empl, 'shdl' => $shdl, 'title' => $title, 'photo' => $photo]);
         }
     }
     
@@ -121,9 +133,9 @@ $resume->save();
     {
         $thisresume = Resume::findOne($id);
 $thisresume->views++;
-$thisresume->save();
+$thisresume->save(false);
         $age = AgeCalc::run($thisresume->birthdate); //вычисляет возраст по дате рождения
-            
+    //  echo '<pre>';      var_dump($thisresume); echo '</pre>';
         return $this->render('view', ['tr' => $thisresume, 'age' => $age]);
     }
 }

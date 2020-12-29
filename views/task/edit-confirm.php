@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 ?>
 <p>
-    <li><label>Фото</label>: <?php var_dump($model->photo) ?></li>
+    <li><label>Фото</label>: <?php echo ($model->photo) ?></li>
     <li><label>Фамилия</label>:<?php var_dump($model->lastname) ?></li>
     <li><label>Имя</label>:<?php var_dump($model->name) ?></li>
     <li><label>Отчество</label>:<?php var_dump($model->middlename) ?></li>

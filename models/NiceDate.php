@@ -2,11 +2,11 @@
 
 namespace app\models;
 
-use Yii;
-use yii\base\Model;
-
-class NiceDate extends Model
+class NiceDate
 {  
+    /**
+    * @param string $primer dgfdg
+    */
     
     public function replaceAllDate ($lr, $count)
 {
@@ -15,10 +15,12 @@ class NiceDate extends Model
         $lr[$i]["pubdate"] = NiceDate::replaceDate($lr[$i]["pubdate"]); 
     }
         return $lr;
-}
+} 
+    
     
     public function replaceDate ($primer)
 {
+    
       $primer =  strtotime($primer);
     switch (date('n', $primer)) {
     case 1: $mn = "января"; break;
@@ -36,7 +38,16 @@ class NiceDate extends Model
 }
 return date('j '.$mn.' Y в H:i', $primer);
 }
-
+    
+/**   
+ * @param string $msg string to output
+ * @author WikiEditor
+ * @copyright 2016 Wikipedia
+ * @return string unchanged
+ */
+function foo() {
+    return $msg;
+}
 }
 
 

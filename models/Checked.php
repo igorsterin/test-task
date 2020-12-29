@@ -2,10 +2,8 @@
 
 namespace app\models;
 
-use Yii;
-use yii\base\Model;
 
-class Checked extends Model
+class Checked
 {
     
     public function employment ($empl)

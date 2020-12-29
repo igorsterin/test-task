@@ -2,10 +2,9 @@
 
 namespace app\models;
 
-use Yii;
-use yii\base\Model;
 
-class AgeCalc extends Model
+class AgeCalc
+    
 {
 public function run ($bd)
     {
