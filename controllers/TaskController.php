@@ -2,9 +2,10 @@
 
 namespace app\controllers;
 
+use Throwable;
 use Yii;
+use yii\db\StaleObjectException;
 use yii\web\Controller;
-use app\models\EditForm;
 use app\models\Resume;
 use app\models\NiceDate;
 use app\models\AgeCalc;
@@ -12,130 +13,135 @@ use app\models\Checked;
 use yii\helpers\Url;
 use yii\base\Action;
 use yii\helpers\html;
-use app\models\UploadForm;
+use yii\web\Response;
 use yii\web\UploadedFile;
 
 class TaskController extends Controller
- {   
+{
 
-    
-  public function actionIndex()
+    /**
+     * Страница "Мои резюме" (домашняя страница)
+     *
+     * @return string
+     * @throws Throwable
+     * @throws StaleObjectException
+     */
+    public function actionIndex()
     {
-      $id = Yii::$app->request->post('param');
-    if  ($id) {                          
-        $delres = Resume::findOne($id);
-        $delres->delete();
-        return Resume::find()->count();
-    }            //<--данная часть кода выполнятся как ответ на ajax-post-запрос на удаление резюме
-      
-      $listresume = Resume::find() //в этой переменной будет содержаться запрплата, город, дата публикации и число просмотров
-            ->select (['id','salary','city','pubdate','views'])
-            ->where (1)
+        $id = Yii::$app->request->post('param');
+        if ($id) {
+            //данная часть кода выполнятся как ответ на ajax-post-запрос на удаление резюме
+            $delres = Resume::findOne($id);
+            $delres->delete();
+            return Resume::find()->count();
+        }
+
+        //в этой переменной будет содержаться запрплата, город, дата публикации и число просмотров
+        $listresume = Resume::find()
+            ->select(['id', 'salary', 'city', 'pubdate', 'views'])
+            ->where(1)
             ->asArray()
             ->all();
-          $count = Resume::find()->count();
-      $listresume = NiceDate::replaceAllDate($listresume, $count); //замена даты публикации с формата yyyy:mm:dd hh:mm:ss на формат dd месяц на русском yyyy в hh:mm
-          
-        return $this->render('index', ['lr' => $listresume, 
-                                       'count' => $count, 
-                                       'url1' => Url::toRoute(['task/create']), 
-                                       
-                                      ]);
+        $count = Resume::find()->count();
+
+        //замена даты публикации с формата yyyy:mm:dd hh:mm:ss на формат dd месяц на русском yyyy в hh:mm
+        $listresume = (new NiceDate)->replaceAllDate($listresume, $count);
+
+        return $this->render(
+            'index',
+            [
+                'lr' => $listresume,
+                'count' => $count,
+                'url1' => Url::toRoute(['task/create']),
+
+            ]
+        );
     }
-    
-    
-    
+
+    /**
+     * Страница создания резюме (работает на базе actionEdit)
+     *
+     * @return string|Response
+     */
     public function actionCreate()
     {
         return $this->actionEdit(null);
-        
-    } 
-    
-    
-    
+    }
+
+    /**
+     * Отображает либо страницу создания резюме (при вызове в ActionCreate), либо редактирования резюме
+     *
+     * @param $id int|null
+     * @return string|Response
+     */
     public function actionEdit($id)
     {
-        //$model = new EditForm();
-        
-    if (empty($id)) {                //id будет пустое при создании резюме
-        $resume = new Resume(); 
-        $title = 'Новое резюме'; 
-        $photo = 'images/profile-foto.jpg'; 
-        $resume->skip = false;                     //если резюме создается, то загрузка фото в input file обязательно
-    }   
-        else {
-            $resume = Resume::findOne($id); 
-            $title = 'Редактировать резюме'; 
-            $photo = 'uploads/'.$resume->photo; 
-            $resume->skip = true;                 //если редактируется, то не обязательно (потому что фото у резюме уже есть, а значение input file нельзя менять программно, и при открытии страницы он будет пустой, в отличие от других input)
+        //id будет пустое при создании резюме
+        if (empty($id)) {
+            $resume = new Resume();
+            $title = 'Новое резюме';
+            $photo = 'images/profile-foto.jpg';
+            //если резюме создается, то загрузка фото в input file обязательно
+            $resume->skip = false;
+        } else {
+            $resume = Resume::findOne($id);
+            $title = 'Редактировать резюме';
+            $photo = 'uploads/' . $resume->photo;
+            //если редактируется, то не обязательно (потому что фото у резюме уже есть, а значение input file нельзя менять программно, и при открытии страницы он будет пустой, в отличие от других input)
+            $resume->skip = true;
         }
-        
 
-                  if ($resume->load(Yii::$app->request->post()) )      //выполняется когда форма заполнена 
-                  {     
-                     $resume->imageFile = UploadedFile::getInstance($resume, 'imageFile');
+        //выполняется когда форма заполнена
+        if ($resume->load(Yii::$app->request->post())) {
+            $resume->imageFile = UploadedFile::getInstance($resume, 'imageFile');
 
-                        if ($resume->upload()) {                     // если фото загружено (но вне зависимости от этого, метод upload проведет валидацию данных формы)
-                            
-                            $resume->photo = $resume->imageFile;
-                            $resume->employment = json_encode($resume->employment, JSON_UNESCAPED_UNICODE);  
-                            $resume->shedule = json_encode($resume->shedule, JSON_UNESCAPED_UNICODE);
-                           // echo '<pre>';      var_dump($resume); echo '</pre>'; 
-                           // echo '</br></br></br></br></br></br>';
-                             //echo '<pre>';      var_dump($resume->imageFile); echo '</pre>';
-                           $resume->save(false);       //при создании, или при редактировании, если изменено фото
-                            //return $this->redirect('index');
-                            return $this->render('edit-confirm', ['model' => $resume]);
-                            
-                            
-                        }
-              
-$resume->employment = json_encode($resume->employment, JSON_UNESCAPED_UNICODE);  
-$resume->shedule = json_encode($resume->shedule, JSON_UNESCAPED_UNICODE);
-$resume->save(false); //при редактировании, если фото не изменено 
-//return $this->redirect('index');
-return $this->render('edit-confirm', ['model' => $resume]);
-        } 
-            else 
-        {
-            // эта часть кода выполняется, если страница отображается первый раз, либо есть ошибка в данных
-                
-$empl = Checked::employment(json_decode($resume->employment));
- $shdl = Checked::shedule(json_decode($resume->shedule));
-return $this->render('edit', ['model' => $resume, 'resume' => $resume, 'empl' => $empl, 'shdl' => $shdl, 'title' => $title, 'photo' => $photo]);
+            // если фото загружено (но вне зависимости от этого, метод upload проведет валидацию данных формы)
+            if ($resume->upload()) {
+                $resume->photo = $resume->imageFile;
+                $resume->employment = json_encode($resume->employment, JSON_UNESCAPED_UNICODE);
+                $resume->shedule = json_encode($resume->shedule, JSON_UNESCAPED_UNICODE);
+                $resume->save(false);
+                return $this->redirect('index');
+            }
+
+            //при редактировании, если фото не изменено
+            $resume->employment = json_encode($resume->employment, JSON_UNESCAPED_UNICODE);
+            $resume->shedule = json_encode($resume->shedule, JSON_UNESCAPED_UNICODE);
+            $resume->save(false);
+            return $this->redirect('index');
+        } else {
+// эта часть кода выполняется, если страница отображается первый раз, либо есть ошибка в данных
+            $empl = (new Checked)->employmentClick(json_decode($resume->employment));
+            $shdl = (new Checked)->sheduleClick(json_decode($resume->shedule));
+            return $this->render(
+                'edit',
+                [
+                    'model' => $resume,
+                    'resume' => $resume,
+                    'empl' => $empl,
+                    'shdl' => $shdl,
+                    'title' => $title,
+                    'photo' => $photo
+                ]
+            );
         }
     }
-    
-    
-    
-    public function resumeSave ($resume, $model) //часть actionEdit, вынесена в отдельный метод, чтобы два раза не повторять
-    {
-if ($model->imageFile!==null) {$resume->photo = $model->imageFile;}
-$resume->lastname = $model->lastname;
-$resume->name = $model->name;
-$resume->middlename = $model->middlename;
-$resume->birthdate = $model->birthdate;
-$resume->sex = $model->sex;
-$resume->city = $model->city;
-$resume->email = $model->email;
-$resume->mobile = $model->mobile;
-$resume->specialization = $model->specialization;
-$resume->salary = $model->salary;
-$resume->employment = json_encode($model->employment, JSON_UNESCAPED_UNICODE);
-$resume->shedule = json_encode($model->shedule, JSON_UNESCAPED_UNICODE);
-$resume->aboutme = ($model->aboutme);
-$resume->save();
-    }
-    
-    
-    
+
+    /**
+     * Страница просмотра резюме
+     *
+     * @param $id int
+     * @return string
+     */
     public function actionView($id)
     {
         $thisresume = Resume::findOne($id);
-$thisresume->views++;
-$thisresume->save(false);
-        $age = AgeCalc::run($thisresume->birthdate); //вычисляет возраст по дате рождения
-    //  echo '<pre>';      var_dump($thisresume); echo '</pre>';
+        $thisresume->views++;
+        $thisresume->save(false);
+
+        //вычисляет возраст по дате рождения
+        $age = (new AgeCalc)->run($thisresume->birthdate);
+
         return $this->render('view', ['tr' => $thisresume, 'age' => $age]);
     }
 }
