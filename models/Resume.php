@@ -25,19 +25,19 @@ use yii\web\UploadedFile;
  */
 class Resume extends ActiveRecord
 {
-    public $imageFile;
-    public $skip;
+   /* public $imageFile;
+    public $skip;*/
 
     public function rules()
     {
         return [
-            [['imageFile'], 'file', 'skipOnEmpty' => $this->skip, 'extensions' => 'png, jpg'],
+            //[['imageFile'], 'file', 'skipOnEmpty' => $this->skip, 'extensions' => 'png, jpg'],
             [
                 ['lastname', 'name', 'middlename', 'email', 'mobile', 'birthdate', 'salary', 'specialization', 'city'],
                 'required',
                 'message' => 'Поле обязательно для заполнения'
             ],
-            [['employment', 'shedule'], 'default', 'value' => ['Не указано']],
+          //  [['employment', 'shedule'], 'default', 'value' => ['Не указано']],
             [['sex', 'aboutme'], 'default', 'value' => null],
             ['email', 'email', 'message' => 'Поле заполнено неверно'],
             [
@@ -59,7 +59,7 @@ class Resume extends ActiveRecord
         ];
     }
 
-    public function upload()
+   /* public function upload()
     {
         if ($this->validate() and $this->imageFile !== null) {
             $this->imageFile->saveAs('uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
@@ -67,7 +67,7 @@ class Resume extends ActiveRecord
         } else {
             return false;
         }
-    }
+    }*/
 }
 
 

@@ -12,7 +12,7 @@ class NiceDate
     public function replaceAllDate($lr, $count)
     {
         for ($i = 0; $i < $count; $i++) {
-            $lr[$i]["pubdate"] = NiceDate::replaceDate($lr[$i]["pubdate"]);
+            $lr[$i]["pubdate"] = $this->replaceDate($lr[$i]["pubdate"]);
         }
         return $lr;
     }
@@ -65,8 +65,6 @@ class NiceDate
         return date('j ' . $mn . ' Y в H:i', $primer);
     }
 
-
 }
-
 
 ?>

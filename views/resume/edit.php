@@ -3,6 +3,8 @@
 /**
  * @var $this yii\web\View
  * @var $form yii\bootstrap\ActiveForm
+ * @var $image app\models\Image
+ * @var $checkBox app\models\CheckBox
  * @var $model app\models\Resume
  * @var $resume app\models\Resume
  * @var $photo string
@@ -22,27 +24,27 @@ if (isset($resume['sex'])) {
 $this->title = $title;
 
 //стиль сообщения об ошибке заполнения поля формы
-$this->registerCss(
-    ".help-block {    
+$css = <<<CSS
+.help-block {    
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
     line-height: 24px;
     color: #a94442;
-    }"
-);
+    }
+CSS;
 
-$this->registerJs(
-    <<<JS
+$this->registerCss($css);
+
+$js = <<<JS
     function changeimg(input) {
     let fReader = new FileReader();
  fReader.readAsDataURL(input.files[0]);
     fReader.onload = function() {
 document.getElementById("img1").innerHTML='<img  src="' + fReader.result + '" alt="foto">';}}
-JS
-    ,
-    3
-);
+JS;
+
+$this->registerJs($js, 3);
 
 ?>
 
@@ -71,7 +73,7 @@ JS
                 </div>
 
                 <?= $form->field(
-                    $model,
+                    $image,
                     'imageFile',
                     ['options' => ['tag' => 'label', 'class' => 'custom-file-upload']]
                 )->fileInput(['onchange' => 'changeimg(this)'])->label('Изменить фото') ?>
@@ -148,11 +150,8 @@ JS
                     ]
                 ) ?>
             </div>
-
         </div>
-
         <div class="row mb16">
-
             <div class="col-lg-2 col-md-3 dflex-acenter">
                 <div class="paragraph">Город проживания</div>
             </div>
@@ -265,36 +264,37 @@ JS
             <div class="col-lg-3 col-md-4 col-11">
                 <div class="profile-info">
                     <div class="form-check d-flex">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1" name="Resume[employment][]"
-                               value="Полная занятость" <?= $empl['Полная занятость'] ?>>
+                        <input type="hidden" name="CheckBox[zaglushka]" value="">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1" name="CheckBox[Полная занятость]"
+                               value="Checked" <?= $checkBox['Полная занятость'] ?>>
                         <label class="form-check-label" for="exampleCheck1"></label>
                         <label for="exampleCheck1" class="profile-info__check-text job-resolution-checkbox">Полная
                             занятость</label>
                     </div>
                     <div class="form-check d-flex">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck2" name="Resume[employment][]"
-                               value="Частичная занятость" <?= $empl['Частичная занятость'] ?>>
+                        <input type="checkbox" class="form-check-input" id="exampleCheck2" name="CheckBox[Частичная занятость]"
+                               value="Checked" <?= $checkBox['Частичная занятость'] ?>>
                         <label class="form-check-label" for="exampleCheck2"></label>
                         <label for="exampleCheck2" class="profile-info__check-text job-resolution-checkbox">Частичная
                             занятость</label>
                     </div>
                     <div class="form-check d-flex">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck3" name="Resume[employment][]"
-                               value="Проектная/Временная работа" <?= $empl['Проектная/Временная работа'] ?>>
+                        <input type="checkbox" class="form-check-input" id="exampleCheck3" name="CheckBox[Проектная/Временная работа]"
+                               value="Checked" <?= $checkBox['Проектная/Временная работа'] ?>>
                         <label class="form-check-label" for="exampleCheck3"></label>
                         <label for="exampleCheck3" class="profile-info__check-text job-resolution-checkbox">Проектная/Временная
                             работа</label>
                     </div>
                     <div class="form-check d-flex">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck4" name="Resume[employment][]"
-                               value="Волонтёрство" <?= $empl['Волонтёрство'] ?>>
+                        <input type="checkbox" class="form-check-input" id="exampleCheck4" name="CheckBox[Волонтёрство]"
+                               value="Checked" <?= $checkBox['Волонтёрство'] ?>>
                         <label class="form-check-label" for="exampleCheck4"></label>
                         <label for="exampleCheck4"
                                class="profile-info__check-text job-resolution-checkbox">Волонтёрство</label>
                     </div>
                     <div class="form-check d-flex">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck5" name="Resume[employment][]"
-                               value="Стажировка" <?= $empl['Стажировка'] ?>>
+                        <input type="checkbox" class="form-check-input" id="exampleCheck5" name="CheckBox[Стажировка]"
+                               value="Checked" <?= $checkBox['Стажировка'] ?>>
                         <label class="form-check-label" for="exampleCheck5"></label>
                         <label for="exampleCheck5"
                                class="profile-info__check-text job-resolution-checkbox">Стажировка</label>
@@ -309,36 +309,36 @@ JS
             <div class="col-lg-3 col-md-4 col-11">
                 <div class="profile-info">
                     <div class="form-check d-flex">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck6" name="Resume[shedule][]"
-                               value="Полный день" <?= $shdl['Полный день'] ?>>
+                        <input type="checkbox" class="form-check-input" id="exampleCheck6" name="CheckBox[Полный день]"
+                               value="Checked" <?= $checkBox['Полный день'] ?>>
                         <label class="form-check-label" for="exampleCheck6"></label>
                         <label for="exampleCheck6" class="profile-info__check-text job-resolution-checkbox">Полный
                             день</label>
                     </div>
                     <div class="form-check d-flex">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck7" name="Resume[shedule][]"
-                               value="Сменный график" <?= $shdl['Сменный график'] ?>>
+                        <input type="checkbox" class="form-check-input" id="exampleCheck7" name="CheckBox[Сменный график]"
+                               value="Checked" <?= $checkBox['Сменный график'] ?>>
                         <label class="form-check-label" for="exampleCheck7"></label>
                         <label for="exampleCheck7" class="profile-info__check-text job-resolution-checkbox">Сменный
                             график</label>
                     </div>
                     <div class="form-check d-flex">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck8" name="Resume[shedule][]"
-                               value="Гибкий график" <?= $shdl['Гибкий график'] ?>>
+                        <input type="checkbox" class="form-check-input" id="exampleCheck8" name="CheckBox[Гибкий график]"
+                               value="Checked" <?= $checkBox['Гибкий график'] ?>>
                         <label class="form-check-label" for="exampleCheck8"></label>
                         <label for="exampleCheck8" class="profile-info__check-text job-resolution-checkbox">Гибкий
                             график</label>
                     </div>
                     <div class="form-check d-flex">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck9" name="Resume[shedule][]"
-                               value="Удалённая работа" <?= $shdl['Удалённая работа'] ?>>
+                        <input type="checkbox" class="form-check-input" id="exampleCheck9" name="CheckBox[Удалённая работа]"
+                               value="Checked" <?= $checkBox['Удалённая работа'] ?>>
                         <label class="form-check-label" for="exampleCheck9"></label>
                         <label for="exampleCheck9" class="profile-info__check-text job-resolution-checkbox">Удалённая
                             работа</label>
                     </div>
                     <div class="form-check d-flex">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck10" name="Resume[shedule][]"
-                               value="Вахтовый метод" <?= $shdl['Вахтовый метод'] ?>>
+                        <input type="checkbox" class="form-check-input" id="exampleCheck10" name="CheckBox[Вахтовый метод]"
+                               value="Checked" <?= $checkBox['Вахтовый метод'] ?>>
                         <label class="form-check-label" for="exampleCheck10"></label>
                         <label for="exampleCheck10"
                                class="profile-info__check-text job-resolution-checkbox">Вахтовый
@@ -370,5 +370,4 @@ JS
         <?php
         ActiveForm::end(); ?>
     </div>
-</div>
 </div>

@@ -13,11 +13,11 @@ use yii\web\Controller;
 
 $this->title = 'Мои резюме';
 
-$this->registerJs(
+$js =
     <<<JS
     function deleteRes(id) {    
 $.post(
-  "",
+  "test_task/web/index.php?r=resume%2Fdelete",
   {
     param: id,
   },
@@ -25,15 +25,13 @@ $.post(
 );
 function onAjaxSuccess(data)
     {
- // alert(data);
 let elem = document.getElementById(id);
 elem.parentNode.removeChild(elem); 
 let elsp = document.getElementById('spn');
 elsp.innerText=data; } }
-JS
-    ,
-    3
-);
+JS;
+
+$this->registerJs($js, 3);
 
 ?>
 
@@ -61,8 +59,8 @@ JS
                                     [
                                         'lr' => $lr,
                                         'i' => $i,
-                                        'url2' => Url::toRoute(['task/view', 'id' => $id]),
-                                        'url3' => Url::toRoute(['task/edit', 'id' => $id])
+                                        'url2' => Url::toRoute(['resume/view', 'id' => $id]),
+                                        'url3' => Url::toRoute(['resume/edit', 'id' => $id])
                                     ]
                                 );
                             } ?>
@@ -74,3 +72,4 @@ JS
         </div>
     </div>
 </div>
+

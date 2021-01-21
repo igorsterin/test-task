@@ -4,8 +4,10 @@
  * @var $this yii\web\View
  * @var $tr app\models\Resume
  * @var $age string
+ * @var $cb app\models\CheckBox
  */
 
+use app\models\viewModels\TextHelper;
 use yii\helpers\html;
 
 $this->title = 'Просмотр резюме';
@@ -15,6 +17,9 @@ if (empty($tr['aboutme'])) {
 } else {
     $abm = $tr->aboutme;
 }
+$checkboxArrays = array_chunk($cb->attributes, 6,TRUE);
+$employment = TextHelper::checkboxGetName($checkboxArrays[0]);
+$schedule = TextHelper::checkboxGetName($checkboxArrays[1]);
 ?>
 
 <div class="content p-rel">
@@ -53,23 +58,12 @@ if (empty($tr['aboutme'])) {
                     </div>
                     <div class="profile-info__block company-profile-info__block mb8">
                         <div class="profile-info__block-left company-profile-info__block-left">Занятость</div>
-                        <div class="profile-info__block-right company-profile-info__block-right"><?= join(
-                                ', ',
-                                json_decode(
-                                    $tr->employment
-                                )
-                            ) ?></div>
+                        <div class="profile-info__block-right company-profile-info__block-right"><?= $employment ?></div>
                     </div>
                     <div class="profile-info__block company-profile-info__block mb8">
                         <div class="profile-info__block-left company-profile-info__block-left">График работы
                         </div>
-                        <div class="profile-info__block-right company-profile-info__block-right"><?= join(
-                                ', ',
-                                json_decode(
-                                    $tr->shedule
-                                )
-                            ) ?>
-                        </div>
+                        <div class="profile-info__block-right company-profile-info__block-right"><?= $schedule ?></div>
                     </div>
                     <div class="profile-info__block company-profile-info__block mb8">
                         <div class="profile-info__block-left company-profile-info__block-left">Город проживания
