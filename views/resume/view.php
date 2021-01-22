@@ -2,22 +2,25 @@
 
 /**
  * @var $this yii\web\View
- * @var $tr app\models\Resume
+ * @var $thisResume app\models\Resume
  * @var $age string
- * @var $cb app\models\CheckBox
+ * @var $checkbox app\models\Checkbox
+ * @var $data array
  */
 
 use app\models\viewModels\TextHelper;
 use yii\helpers\html;
 
+extract($data, EXTR_OVERWRITE );
+$age = TextHelper::ageCalc($thisResume->birthdate);
 $this->title = 'Просмотр резюме';
 
-if (empty($tr['aboutme'])) {
+if (empty($thisResume->about_me)) {
     $abm = 'Этот раздел еще не заполнен.';
 } else {
-    $abm = $tr->aboutme;
+    $abm = $thisResume->about_me;
 }
-$checkboxArrays = array_chunk($cb->attributes, 6,TRUE);
+$checkboxArrays = array_chunk($checkbox->attributes, 6,TRUE);
 $employment = TextHelper::checkboxGetName($checkboxArrays[0]);
 $schedule = TextHelper::checkboxGetName($checkboxArrays[1]);
 ?>
@@ -34,7 +37,7 @@ $schedule = TextHelper::checkboxGetName($checkboxArrays[1]);
         <div class="row">
             <div class="col-lg-4 col-md-5 mobile-mb32">
                 <div class="profile-foto resume-profile-foto"><img
-                            src=<?= '"uploads/' . $tr->photo . '"' ?> alt="profile-foto">
+                            src=<?= '"uploads/' . $thisResume->photo . '"' ?> alt="profile-foto">
                 </div>
             </div>
             <div class="col-lg-8 col-md-7">
@@ -42,13 +45,13 @@ $schedule = TextHelper::checkboxGetName($checkboxArrays[1]);
                     разработчик
                 </div>
                 <div class="paragraph-lead mb16">
-                    <span class="mr24"><?= number_format($tr->salary, 0, ',', ' ') ?> ₽</span>
+                    <span class="mr24"><?= number_format($thisResume->salary, 0, ',', ' ') ?> ₽</span>
                 </div>
                 <div class="profile-info company-profile-info resume-view__info-blick">
                     <div class="profile-info__block company-profile-info__block mb8">
                         <div class="profile-info__block-left company-profile-info__block-left">Имя
                         </div>
-                        <div class="profile-info__block-right company-profile-info__block-right"><?= $tr->lastname ?> <?= $tr->name ?> <?= $tr->middlename ?>
+                        <div class="profile-info__block-right company-profile-info__block-right"><?= $thisResume->lastname ?> <?= $thisResume->name ?> <?= $thisResume->middlename ?>
                         </div>
                     </div>
                     <div class="profile-info__block company-profile-info__block mb8">
@@ -68,21 +71,21 @@ $schedule = TextHelper::checkboxGetName($checkboxArrays[1]);
                     <div class="profile-info__block company-profile-info__block mb8">
                         <div class="profile-info__block-left company-profile-info__block-left">Город проживания
                         </div>
-                        <div class="profile-info__block-right company-profile-info__block-right"><?= $tr->city ?></div>
+                        <div class="profile-info__block-right company-profile-info__block-right"><?= $thisResume->city ?></div>
                     </div>
                     <div class="profile-info__block company-profile-info__block mb8">
                         <div class="profile-info__block-left company-profile-info__block-left">
                             Электронная почта
                         </div>
                         <div class="profile-info__block-right company-profile-info__block-right"><a
-                                    href="#"><?= $tr->email ?></a></div>
+                                    href="#"><?= $thisResume->email ?></a></div>
                     </div>
                     <div class="profile-info__block company-profile-info__block mb8">
                         <div class="profile-info__block-left company-profile-info__block-left">
                             Телефон
                         </div>
                         <div class="profile-info__block-right company-profile-info__block-right"><a
-                                    href="#"><?= $tr->mobile ?></a>
+                                    href="#"><?= $thisResume->mobile ?></a>
                         </div>
                     </div>
                 </div>

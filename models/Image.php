@@ -20,7 +20,7 @@ class Image extends Model
     }
     public function upload()
     {
-        if ($this->validate() and $this->imageFile !== null) {
+        if ($this->validate() && $this->imageFile !== null) {
             $this->imageFile->saveAs('uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
             return true;
         } else {

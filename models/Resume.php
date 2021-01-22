@@ -8,8 +8,6 @@ use yii\web\UploadedFile;
 /**
  * Class Resume
  * @package app\models
- * @property array $employment
- * @property array $shedule
  * @property yii\web\UploadedFile $photo
  * @property string $lastname
  * @property string $name
@@ -21,24 +19,19 @@ use yii\web\UploadedFile;
  * @property string $specialization
  * @property string $city
  * @property string $sex
- * @property string|null $aboutme
+ * @property string|null $about_me
  */
 class Resume extends ActiveRecord
 {
-   /* public $imageFile;
-    public $skip;*/
-
     public function rules()
     {
         return [
-            //[['imageFile'], 'file', 'skipOnEmpty' => $this->skip, 'extensions' => 'png, jpg'],
             [
                 ['lastname', 'name', 'middlename', 'email', 'mobile', 'birthdate', 'salary', 'specialization', 'city'],
                 'required',
                 'message' => 'Поле обязательно для заполнения'
             ],
-          //  [['employment', 'shedule'], 'default', 'value' => ['Не указано']],
-            [['sex', 'aboutme'], 'default', 'value' => null],
+            [['sex', 'about_me'], 'default', 'value' => null],
             ['email', 'email', 'message' => 'Поле заполнено неверно'],
             [
                 'salary',
@@ -58,16 +51,6 @@ class Resume extends ActiveRecord
 
         ];
     }
-
-   /* public function upload()
-    {
-        if ($this->validate() and $this->imageFile !== null) {
-            $this->imageFile->saveAs('uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
-            return true;
-        } else {
-            return false;
-        }
-    }*/
 }
 
 

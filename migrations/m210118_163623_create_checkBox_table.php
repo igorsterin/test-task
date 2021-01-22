@@ -3,16 +3,16 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `{{%checkBox}}`.
+ * Handles the creation of table `{{%checkbox}}`.
  */
-class m210118_163623_create_checkBox_table extends Migration
+class m210118_163623_create_checkbox_table extends Migration
 {
     /**
      * {@inheritdoc}
      */
     public function safeUp()
     {
-        $this->createTable('{{%checkBox}}', [
+        $this->createTable('{{%checkbox}}', [
             'id' => $this->primaryKey(),
             'Полная занятость' => $this->text(),
             'Частичная занятость' => $this->text(),
@@ -32,6 +32,6 @@ class m210118_163623_create_checkBox_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%checkBox}}');
+        $this->dropTable('{{%checkbox}}');
     }
 }

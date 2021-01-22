@@ -4,14 +4,21 @@
  * @var $this yii\web\View
  * @var $url1 string
  * @var $count int
- * @var $lr array|yii\db\ActiveRecord[]
+ * @var $listResume array|yii\db\ActiveRecord[]
+ * @var $data array
  */
 
+use app\models\viewModels\TextHelper;
 use yii\helpers\Url;
-
 use yii\web\Controller;
 
+extract($data, EXTR_OVERWRITE);
 $this->title = 'Мои резюме';
+
+//замена даты публикации с формата yyyy:mm:dd hh:mm:ss на формат dd месяц на русском yyyy в hh:mm
+$listResume = TextHelper::replaceAllDate($listResume, $count);
+
+$url1 = Url::toRoute(['resume/create']);
 
 $js =
     <<<JS
@@ -53,16 +60,12 @@ $this->registerJs($js, 3);
 
                             <?php
                             for ($i = 0; $i < $count; $i++) {
-                                $id = $lr[$i]["id"];
-                                echo $this->render(
-                                    'pageblock',
-                                    [
-                                        'lr' => $lr,
-                                        'i' => $i,
-                                        'url2' => Url::toRoute(['resume/view', 'id' => $id]),
-                                        'url3' => Url::toRoute(['resume/edit', 'id' => $id])
-                                    ]
-                                );
+                                $id = $listResume[$i]['id'];
+                                $url2 = Url::toRoute(['resume/view', 'id' => $id]);
+                                $url3 = Url::toRoute(['resume/update', 'id' => $id]);
+                                $data = compact('listResume', 'i', 'url2', 'url3');
+
+                                echo $this->render('pageBlock', ['data' => $data]);
                             } ?>
 
                         </div>

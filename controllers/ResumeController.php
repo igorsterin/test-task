@@ -2,10 +2,11 @@
 
 namespace app\controllers;
 
-use app\models\CheckBox;
+use app\models\Checkbox;
 use app\models\Image;
 use Throwable;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\db\StaleObjectException;
 use yii\web\Controller;
 use app\models\Resume;
@@ -30,25 +31,17 @@ class ResumeController extends Controller
      */
     public function actionIndex()
     {
-        //в этой переменной будет содержаться запрплата, город, дата публикации и число просмотров
-        $listResume = Resume::find()
-            ->select(['id', 'salary', 'city', 'pubdate', 'views'])
-            ->asArray()
-            ->all();
-        $count = Resume::find()->count();
-
-        //замена даты публикации с формата yyyy:mm:dd hh:mm:ss на формат dd месяц на русском yyyy в hh:mm
-        $listResume = (new NiceDate)->replaceAllDate($listResume, $count);
-
-        return $this->render(
-            'index',
+        $provider = new ActiveDataProvider(
             [
-                'lr' => $listResume,
-                'count' => $count,
-                'url1' => Url::toRoute(['resume/create']),
-
+                'query' => Resume::find()
+                    ->select(['id', 'salary', 'city', 'pub_date', 'views'])
             ]
         );
+        $listResume = $provider->getModels();
+        $count = Resume::find()->count();
+        $data = compact('listResume', 'count');
+
+        return $this->render('index', ['data' => $data]);
     }
 
     /**
@@ -64,87 +57,75 @@ class ResumeController extends Controller
         if ($id) {
             $delRes = Resume::findOne($id);
             $delRes->delete();
-            $delRes = CheckBox::findOne($id);
+            $delRes = Checkbox::findOne($id);
             $delRes->delete();
             return Resume::find()->count();
         }
     }
 
     /**
-     * Страница создания резюме (работает на базе actionEdit)
+     * Страница создания резюме
      *
      * @return string|Response
      */
     public function actionCreate()
     {
-        return $this->actionEdit(null);
+        $resume = new Resume();
+        $image = new Image();
+        $checkbox = new Checkbox();
+        //если резюме создается, то загрузка фото в input file обязательно
+        $image->skip = false;
+
+        //выполняется когда форма заполнена
+        if ($resume->load(Yii::$app->request->post()) && $checkbox->load(Yii::$app->request->post())) {
+            $image->imageFile = UploadedFile::getInstance($image, 'imageFile');
+            // если фото загружено
+            if ($image->upload()) {
+                $resume->photo = $image->imageFile->name;
+                $checkbox->save();
+                $resume->save();
+                return $this->redirect('index');
+            }
+        } else {
+// эта часть кода выполняется, если страница отображается первый раз, либо есть ошибка в данных
+            $data = compact('checkbox', 'image', 'resume');
+            return $this->render('create', ['data' => $data]);
+        }
     }
 
     /**
-     * Отображает либо страницу создания резюме (при вызове в ActionCreate), либо редактирования резюме
+     * Страница редактирования резюме
      *
-     * @param $id int|null
+     * @param $id
      * @return string|Response
-     * @throws \yii\base\InvalidConfigException
      */
-    public function actionEdit($id)
+    public function actionUpdate($id)
     {
-        //id будет пустое при создании резюме
-        if (empty($id)) {
-            $resume = new Resume();
-            $image = new Image();
-            $checkBox = new CheckBox();
-            $title = 'Новое резюме';
-            $photo = 'images/profile-foto.jpg';
-            //если резюме создается, то загрузка фото в input file обязательно
-            $image->skip = false;
-        } else {
-            $resume = Resume::findOne($id);
-            $image = new Image();
-            $checkBox = CheckBox::findOne($id);
-            $title = 'Редактировать резюме';
-            $photo = 'uploads/' . $resume->photo;
-            //если редактируется, то не обязательно (потому что фото у резюме уже есть, а значение input file нельзя менять программно, и при открытии страницы он будет пустой, в отличие от других input)
-            $image->skip = true;
-        }
+        $resume = Resume::findOne($id);
+        $image = new Image();
+        $checkbox = Checkbox::findOne($id);
+        //если редактируется, то не обязательно (потому что фото у резюме уже есть, а значение input file нельзя менять программно, и при открытии страницы он будет пустой, в отличие от других input)
+        $image->skip = true;
 
         //выполняется когда форма заполнена
-        if ($resume->load(Yii::$app->request->post()) && $checkBox->load(Yii::$app->request->post()) ) {
+        if ($resume->load(Yii::$app->request->post()) && $checkbox->load(Yii::$app->request->post())) {
             $image->imageFile = UploadedFile::getInstance($image, 'imageFile');
 
             // если фото загружено (но вне зависимости от этого, метод upload проведет валидацию данных формы)
             if ($image->upload()) {
                 $resume->photo = $image->imageFile->name;
-                /*$resume->employment = json_encode($resume->employment, JSON_UNESCAPED_UNICODE);
-                $resume->shedule = json_encode($resume->shedule, JSON_UNESCAPED_UNICODE);*/
-                $checkBox->save();
+                $checkbox->save();
                 $resume->save();
                 return $this->redirect('index');
             }
-
             //при редактировании, если фото не изменено
-            /*$resume->employment = json_encode($resume->employment, JSON_UNESCAPED_UNICODE);
-            $resume->shedule = json_encode($resume->shedule, JSON_UNESCAPED_UNICODE);*/
-            $checkBox->save();
+            $checkbox->save();
             $resume->save();
             return $this->redirect('index');
         } else {
 // эта часть кода выполняется, если страница отображается первый раз, либо есть ошибка в данных
-            $empl = (new Checked)->employmentClick(json_decode($resume->employment));
-            $shdl = (new Checked)->sheduleClick(json_decode($resume->shedule));
-            return $this->render(
-                'edit',
-                [
-                    'checkBox' => $checkBox,
-                    'image' => $image,
-                    'model' => $resume,
-                    'resume' => $resume,
-                    'empl' => $empl,
-                    'shdl' => $shdl,
-                    'title' => $title,
-                    'photo' => $photo
-                ]
-            );
+            $data = compact('checkbox', 'image', 'resume');
+            return $this->render('update', ['data' => $data]);
         }
     }
 
@@ -159,12 +140,10 @@ class ResumeController extends Controller
         $thisResume = Resume::findOne($id);
         $thisResume->views++;
         $thisResume->save(false);
-        $checkBox = CheckBox::findOne($id);
-/*var_dump($checkBox);*/  /*echo key($checkBox->attributes[2]);*/ //echo $checkBox['Полная занятость'];
-        //вычисляет возраст по дате рождения
-        $age = (new AgeCalc)->run($thisResume->birthdate);
-        //var_dump(array_chunk($checkBox->attributes, 6, TRUE));
-       return $this->render('view', ['tr' => $thisResume, 'age' => $age, 'cb' => $checkBox]);
+        $checkbox = Checkbox::findOne($id);
+        $data = compact('thisResume', 'checkbox');
+
+        return $this->render('view', ['data' => $data]);
     }
 }
 

@@ -4,24 +4,19 @@
  * @var $this yii\web\View
  * @var $form yii\bootstrap\ActiveForm
  * @var $image app\models\Image
- * @var $checkBox app\models\CheckBox
- * @var $model app\models\Resume
+ * @var $checkbox app\models\Checkbox
  * @var $resume app\models\Resume
  * @var $photo string
- * @var $title string
- * @var $empl array
- * @var $shdl array
+ * @var $vls string
+ * @var $data array
+ * @var $data1 array
  */
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-if (isset($resume['sex'])) {
-    $vls = $resume['sex'];
-} else {
-    $vls = 'Мужской';
-}
-$this->title = $title;
+extract($data1, EXTR_OVERWRITE);
+extract($data, EXTR_OVERWRITE);
 
 //стиль сообщения об ошибке заполнения поля формы
 $css = <<<CSS
@@ -58,7 +53,7 @@ $this->registerJs($js, 3);
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <div class="main-title mb24"><?= $title ?></div>
+            <div class="main-title mb24"><?= $this->title ?></div>
         </div>
     </div>
     <div class="col-12">
@@ -71,7 +66,6 @@ $this->registerJs($js, 3);
             <div class="col-lg-3 col-md-4 col-11">
                 <div id="img1" class="profile-foto-upload mb8"><img src=<?= '"' . $photo . '"' ?> alt="foto">
                 </div>
-
                 <?= $form->field(
                     $image,
                     'imageFile',
@@ -83,7 +77,7 @@ $this->registerJs($js, 3);
             <div id="1" class="col-lg-2 col-md-3 dflex-acenter">
                 <div class="paragraph">Фамилия</div>
             </div>
-            <?= $form->field($model, 'lastname', ['options' => ['class' => 'col-lg-3 col-md-4 col-11']])->label(
+            <?= $form->field($resume, 'lastname', ['options' => ['class' => 'col-lg-3 col-md-4 col-11']])->label(
                 false
             )->input('text', ['class' => 'dor-input w100', 'value' => $resume['lastname']]) ?>
         </div>
@@ -91,7 +85,7 @@ $this->registerJs($js, 3);
             <div class="col-lg-2 col-md-3 dflex-acenter">
                 <div class="paragraph">Имя</div>
             </div>
-            <?= $form->field($model, 'name', ['options' => ['class' => 'col-lg-3 col-md-4 col-11']])->label(
+            <?= $form->field($resume, 'name', ['options' => ['class' => 'col-lg-3 col-md-4 col-11']])->label(
                 false
             )->input('text', ['class' => 'dor-input w100', 'value' => $resume['name']]) ?>
         </div>
@@ -99,7 +93,7 @@ $this->registerJs($js, 3);
             <div class="col-lg-2 col-md-3 dflex-acenter">
                 <div class="paragraph">Отчество</div>
             </div>
-            <?= $form->field($model, 'middlename', ['options' => ['class' => 'col-lg-3 col-md-4 col-11']])->label(
+            <?= $form->field($resume, 'middlename', ['options' => ['class' => 'col-lg-3 col-md-4 col-11']])->label(
                 false
             )->input('text', ['class' => 'dor-input w100', 'value' => $resume['middlename']]) ?>
         </div>
@@ -109,9 +103,8 @@ $this->registerJs($js, 3);
             </div>
             <div class="col-lg-3 col-md-4 col-11">
                 <div class="datepicker-wrap input-group date">
-
                     <?= $form->field(
-                        $model,
+                        $resume,
                         'birthdate',
                         ['options' => ['class' => 'datepicker-wrap input-group date']]
                     )->label(false)->input(
@@ -122,7 +115,6 @@ $this->registerJs($js, 3);
                             'value' => $resume['birthdate']
                         ]
                     ) ?>
-
                     <img src="images/mdi_calendar_today.svg" alt="">
                 </div>
             </div>
@@ -132,8 +124,7 @@ $this->registerJs($js, 3);
                 <div class="paragraph">Пол</div>
             </div>
             <div class="col-lg-3 col-md-4 col-11">
-
-                <?= $form->field($model, 'sex', ['options' => ['class' => 'card-ul-radio profile-radio-list']])->label(
+                <?= $form->field($resume, 'sex', ['options' => ['class' => 'card-ul-radio profile-radio-list']])->label(
                     false
                 )->RadioList(
                     ['Мужской' => 'Мужской', 'Женский' => 'Женский'],
@@ -156,8 +147,7 @@ $this->registerJs($js, 3);
                 <div class="paragraph">Город проживания</div>
             </div>
             <div class="col-lg-3 col-md-4 col-11">
-
-                <?= $form->field($model, 'city', ['options' => ['class' => 'citizenship-select']])->label(
+                <?= $form->field($resume, 'city', ['options' => ['class' => 'citizenship-select']])->label(
                     false
                 )->dropDownList(
                     [
@@ -169,7 +159,6 @@ $this->registerJs($js, 3);
                     ],
                     ['class' => 'nselect-1', 'value' => $resume['city']]
                 ) ?>
-
             </div>
         </div>
         <div class="row mb16">
@@ -183,7 +172,7 @@ $this->registerJs($js, 3);
                 <div class="paragraph">Электронная почта</div>
             </div>
             <div class="col-lg-3 col-md-4 col-11">
-                <?= $form->field($model, 'email', ['options' => ['class' => 'p-rel']])->label(false)->input(
+                <?= $form->field($resume, 'email', ['options' => ['class' => 'p-rel']])->label(false)->input(
                     'text',
                     [
                         'class' => 'dor-input w100',
@@ -198,7 +187,7 @@ $this->registerJs($js, 3);
             </div>
             <div class="col-lg-3 col-md-4 col-11">
                 <?= $form->field(
-                    $model,
+                    $resume,
                     'mobile',
                     ['options' => ['style' => 'width: 140px', 'class' => 'p-rel mobile-w100']]
                 )->label(false)->input(
@@ -221,8 +210,7 @@ $this->registerJs($js, 3);
                 <div class="paragraph">Специализация</div>
             </div>
             <div class="col-lg-3 col-md-4 col-11">
-
-                <?= $form->field($model, 'specialization', ['options' => ['class' => 'citizenship-select']])->label(
+                <?= $form->field($resume, 'specialization', ['options' => ['class' => 'citizenship-select']])->label(
                     false
                 )->dropDownList(
                     [
@@ -236,7 +224,6 @@ $this->registerJs($js, 3);
                     ],
                     ['class' => 'nselect-1', 'value' => $resume['specialization']]
                 ) ?>
-
             </div>
         </div>
         <div class="row mb16">
@@ -245,7 +232,7 @@ $this->registerJs($js, 3);
             </div>
             <div class="col-lg-3 col-md-4 col-11">
                 <div class="p-rel">
-                    <?= $form->field($model, 'salary')->label(false)->input(
+                    <?= $form->field($resume, 'salary')->label(false)->input(
                         'text',
                         [
                             'placeholder' => 'От',
@@ -264,37 +251,40 @@ $this->registerJs($js, 3);
             <div class="col-lg-3 col-md-4 col-11">
                 <div class="profile-info">
                     <div class="form-check d-flex">
-                        <input type="hidden" name="CheckBox[zaglushka]" value="">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1" name="CheckBox[Полная занятость]"
-                               value="Checked" <?= $checkBox['Полная занятость'] ?>>
+                        <input type="hidden" name="Checkbox[zaglushka]" value="">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1"
+                               name="Checkbox[Полная занятость]"
+                               value="Checked" <?= $checkbox['Полная занятость'] ?>>
                         <label class="form-check-label" for="exampleCheck1"></label>
                         <label for="exampleCheck1" class="profile-info__check-text job-resolution-checkbox">Полная
                             занятость</label>
                     </div>
                     <div class="form-check d-flex">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck2" name="CheckBox[Частичная занятость]"
-                               value="Checked" <?= $checkBox['Частичная занятость'] ?>>
+                        <input type="checkbox" class="form-check-input" id="exampleCheck2"
+                               name="Checkbox[Частичная занятость]"
+                               value="Checked" <?= $checkbox['Частичная занятость'] ?>>
                         <label class="form-check-label" for="exampleCheck2"></label>
                         <label for="exampleCheck2" class="profile-info__check-text job-resolution-checkbox">Частичная
                             занятость</label>
                     </div>
                     <div class="form-check d-flex">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck3" name="CheckBox[Проектная/Временная работа]"
-                               value="Checked" <?= $checkBox['Проектная/Временная работа'] ?>>
+                        <input type="checkbox" class="form-check-input" id="exampleCheck3"
+                               name="Checkbox[Проектная/Временная работа]"
+                               value="Checked" <?= $checkbox['Проектная/Временная работа'] ?>>
                         <label class="form-check-label" for="exampleCheck3"></label>
                         <label for="exampleCheck3" class="profile-info__check-text job-resolution-checkbox">Проектная/Временная
                             работа</label>
                     </div>
                     <div class="form-check d-flex">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck4" name="CheckBox[Волонтёрство]"
-                               value="Checked" <?= $checkBox['Волонтёрство'] ?>>
+                        <input type="checkbox" class="form-check-input" id="exampleCheck4" name="Checkbox[Волонтёрство]"
+                               value="Checked" <?= $checkbox['Волонтёрство'] ?>>
                         <label class="form-check-label" for="exampleCheck4"></label>
                         <label for="exampleCheck4"
                                class="profile-info__check-text job-resolution-checkbox">Волонтёрство</label>
                     </div>
                     <div class="form-check d-flex">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck5" name="CheckBox[Стажировка]"
-                               value="Checked" <?= $checkBox['Стажировка'] ?>>
+                        <input type="checkbox" class="form-check-input" id="exampleCheck5" name="Checkbox[Стажировка]"
+                               value="Checked" <?= $checkbox['Стажировка'] ?>>
                         <label class="form-check-label" for="exampleCheck5"></label>
                         <label for="exampleCheck5"
                                class="profile-info__check-text job-resolution-checkbox">Стажировка</label>
@@ -309,36 +299,40 @@ $this->registerJs($js, 3);
             <div class="col-lg-3 col-md-4 col-11">
                 <div class="profile-info">
                     <div class="form-check d-flex">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck6" name="CheckBox[Полный день]"
-                               value="Checked" <?= $checkBox['Полный день'] ?>>
+                        <input type="checkbox" class="form-check-input" id="exampleCheck6" name="Checkbox[Полный день]"
+                               value="Checked" <?= $checkbox['Полный день'] ?>>
                         <label class="form-check-label" for="exampleCheck6"></label>
                         <label for="exampleCheck6" class="profile-info__check-text job-resolution-checkbox">Полный
                             день</label>
                     </div>
                     <div class="form-check d-flex">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck7" name="CheckBox[Сменный график]"
-                               value="Checked" <?= $checkBox['Сменный график'] ?>>
+                        <input type="checkbox" class="form-check-input" id="exampleCheck7"
+                               name="Checkbox[Сменный график]"
+                               value="Checked" <?= $checkbox['Сменный график'] ?>>
                         <label class="form-check-label" for="exampleCheck7"></label>
                         <label for="exampleCheck7" class="profile-info__check-text job-resolution-checkbox">Сменный
                             график</label>
                     </div>
                     <div class="form-check d-flex">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck8" name="CheckBox[Гибкий график]"
-                               value="Checked" <?= $checkBox['Гибкий график'] ?>>
+                        <input type="checkbox" class="form-check-input" id="exampleCheck8"
+                               name="Checkbox[Гибкий график]"
+                               value="Checked" <?= $checkbox['Гибкий график'] ?>>
                         <label class="form-check-label" for="exampleCheck8"></label>
                         <label for="exampleCheck8" class="profile-info__check-text job-resolution-checkbox">Гибкий
                             график</label>
                     </div>
                     <div class="form-check d-flex">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck9" name="CheckBox[Удалённая работа]"
-                               value="Checked" <?= $checkBox['Удалённая работа'] ?>>
+                        <input type="checkbox" class="form-check-input" id="exampleCheck9"
+                               name="Checkbox[Удалённая работа]"
+                               value="Checked" <?= $checkbox['Удалённая работа'] ?>>
                         <label class="form-check-label" for="exampleCheck9"></label>
                         <label for="exampleCheck9" class="profile-info__check-text job-resolution-checkbox">Удалённая
                             работа</label>
                     </div>
                     <div class="form-check d-flex">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck10" name="CheckBox[Вахтовый метод]"
-                               value="Checked" <?= $checkBox['Вахтовый метод'] ?>>
+                        <input type="checkbox" class="form-check-input" id="exampleCheck10"
+                               name="Checkbox[Вахтовый метод]"
+                               value="Checked" <?= $checkbox['Вахтовый метод'] ?>>
                         <label class="form-check-label" for="exampleCheck10"></label>
                         <label for="exampleCheck10"
                                class="profile-info__check-text job-resolution-checkbox">Вахтовый
@@ -356,9 +350,9 @@ $this->registerJs($js, 3);
             <div class="col-lg-2 col-md-3">
                 <div class="paragraph">О себе</div>
             </div>
-            <?= $form->field($model, 'aboutme', ['options' => ['class' => 'col-lg-5 col-md-7 col-12']])->label(
+            <?= $form->field($resume, 'about_me', ['options' => ['class' => 'col-lg-5 col-md-7 col-12']])->label(
                 false
-            )->textarea(['class' => 'dor-input w100 h176 mb8', 'value' => ($resume['aboutme'])]) ?>
+            )->textarea(['class' => 'dor-input w100 h176 mb8', 'value' => ($resume['about_me'])]) ?>
         </div>
         <div class="row mb128 mobile-mb64">
             <div class="col-lg-2 col-md-3">

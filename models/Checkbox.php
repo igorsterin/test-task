@@ -6,7 +6,7 @@ namespace app\models;
 
 use yii\db\ActiveRecord;
 
-class CheckBox extends ActiveRecord
+class Checkbox extends ActiveRecord
 {
     public function rules()
     {
